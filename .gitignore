@@ -38,3 +38,6 @@ mass_spring/.ipynb_checkpoints
 
 docs/_build
 demos/output*.txt
+
+# OS-specific files
+.DS_Store
