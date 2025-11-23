@@ -43,3 +43,23 @@ and to see the plots run
 cd demos
 python plotmassspring.py
 ```
+
+# Exercises
+## Different time-steps and larger end-times
+In the following plots different time-step sizes are combined with varying end-times. The first row corresponds to the given parameters for time-step and end-time. The second row displays results for 10-times smaller time steps and the third row shows results for a 10-times bigger end-time. The last row shows what a combined 10-times smaller time steps and 10-times bigger end-time results in. 
+
+<img src="demos/mass_spring_phase_plot_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
+
+<img src="demos/mass_spring_phase_plot_10*steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/mass_spring_time_evolution_10*steps.png" width="45%" style="display:inline-block;">
+
+<img src="demos/mass_spring_phase_plot_10*tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/mass_spring_time_evolution_10*tend.png" width="45%" style="display:inline-block;">
+
+<img src="demos/mass_spring_phase_plot_10*tend_10*steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/mass_spring_time_evolution_10*tend_10*steps.png" width="45%" style="display:inline-block;">
+
+Phase plot: Should be a circle for exact solutions?
+
+Time evolution: Should be a sinusoid for exact solutions?
