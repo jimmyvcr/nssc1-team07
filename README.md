@@ -16,4 +16,6 @@ Members:
 # The Task
 * Solve the exercises from the jupyterbook: [LINK](https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html)
     * Jupyterbook Sections 14 - 17
+    * First Exercise: Implementing the explicit Euler method [LINK](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ee.html#exercise:~:text=Implementing%20the%20explicit%20Euler%20method,-We)
+    * Second Exercise: Coding the Implicit Euler method [LINK](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#:~:text=Coding%20the%20Implicit%20Euler%20method,-In)
 * Push your homework into your git repository (this repository)
