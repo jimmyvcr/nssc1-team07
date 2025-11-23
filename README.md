@@ -56,8 +56,8 @@ Calculation time: $t_{end} = 4*\pi = T$ \
 Number of steps: $n = 100 = N$ \
 Frequency: $\tau= \frac{t_{end}}{n} = \frac{T}{N}= \frac{4*\pi}{100}$
 
-<img src="demos/mass_spring_phase_plot_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
+<img src="demos/ExplicitEuler/mass_spring_phase_plot_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ExplicitEuler/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
 
 ### Configuration 1
 Calculation time: $t_{end} = T$ \
