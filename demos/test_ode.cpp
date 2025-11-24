@@ -34,8 +34,14 @@ public:
 };
 
 
-int main()
+int main(int argc, char* argv[])
 {
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <output_filename>" << std::endl;
+    return 1;
+  }
+  std::string outfilename = argv[1];
+
   double tend = 4*M_PI*10;
   int steps = 100*10;
   double tau = tend/steps;
@@ -44,18 +50,23 @@ int main()
   auto rhs = std::make_shared<MassSpring>(1.0, 1.0);
   
   // ExplicitEuler stepper(rhs);
-  ImprovedEuler stepper(rhs);
-  // ImplicitEuler stepper(rhs);
+  // ImprovedEuler stepper(rhs);
+  ImplicitEuler stepper(rhs);
 
-  std::ofstream outfile ("output_test_ode.txt");
-  std::cout << 0.0 << "  " << y(0) << " " << y(1) << std::endl;
+  std::ofstream outfile (outfilename);
+  std::cout << "Running simulation with tau = " << tau << ", outputting to " << outfilename << std::endl;
+
+  // std::cout << 0.0 << "  " << y(0) << " " << y(1) << std::endl;
   outfile << 0.0 << "  " << y(0) << " " << y(1) << std::endl;
 
   for (int i = 0; i < steps; i++)
   {
      stepper.DoStep(tau, y);
 
-     std::cout << (i+1) * tau << "  " << y(0) << " " << y(1) << std::endl;
+     // std::cout << (i+1) * tau << "  " << y(0) << " " << y(1) << std::endl;
      outfile << (i+1) * tau << "  " << y(0) << " " << y(1) << std::endl;
   }
+
+  std::cout << "test_ode.cpp finished!" << std::endl;
+  return 0;
 }
