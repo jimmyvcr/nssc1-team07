@@ -127,3 +127,17 @@ For a well suitet Frequency the Improved Euler is producing a decent calculation
 
 <img src="demos/ImprovedEuler/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImprovedEuler/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
+
+## Implicit Euler
+
+<img src="demos/ImplicitEuler/mass_spring_implicit_phase_comparison.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitEuler/mass_spring_implicit_time_evo_comparison.png" width="45%" style="display:inline-block;">
+
+### Configuration 1 ($\tau \approx 0.125$)
+The time evolution plot shows the amplitude of the oscillations decaying rapidly. Meanwhile, the phase plot reveals a spiral quickly converging toward the equilibrium point (0, 0), suggesting a substantial energy loss.
+
+### Configuration 2 ($\tau \approx 0.012$)
+Reducing the time step by a factor of ten makes the solution more accurate. The time evolution plot shows oscillations that decay slowly, which preserves the system's energy better over the simulation time. The phase plot resembles a tighter spiral, approaching the perfect circle of an ideal, energy-conserving system.
+
+### Configuration 3 ($\tau \approx 0.5$)
+Using a larger time step shows the trade-off between stability and accuracy inherent to the method. The numerical damping effect becomes more visible, slowing the system's motion considerably after a single oscillation. The phase plot shows the trajectory collapsing directly toward the center. Although the solution remains stable, the accuracy is poor and does not well represent the system's physical behavior.
