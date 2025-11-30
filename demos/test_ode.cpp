@@ -45,11 +45,28 @@ public:
   }
 };
 
+// TODO: replace stub with actual electric network model once available
+class ElectricNetwork : public NonlinearFunction
+{
+public:
+  size_t dimX() const override { throw std::logic_error("ElectricNetwork::dimX not implemented yet"); }
+  size_t dimF() const override { throw std::logic_error("ElectricNetwork::dimF not implemented yet"); }
+  void evaluate (VectorView<double> x, VectorView<double> f) const override
+  {
+    throw std::logic_error("ElectricNetwork::evaluate not implemented yet");
+  }
+  void evaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
+  {
+    throw std::logic_error("ElectricNetwork::evaluateDeriv not implemented yet");
+  }
+};
+
 int main(int argc, char* argv[])
 {
   auto print_usage = [argv]() {
-    std::cerr << "Usage: " << argv[0] << " --stepper <name> [--stages <int>] [--n-factor <double>] [--t-end-factor <double>]\n";
+    std::cerr << "Usage: " << argv[0] << " --stepper <name> [--rhs <system>] [--stages <int>] [--n-factor <double>] [--t-end-factor <double>]\n";
     std::cerr << "  --stepper        exp_euler | impl_euler | impr_euler | crank_nicolson | impl_rk_gauss_legendre | impl_rk_gauss_radau\n";
+    std::cerr << "  --rhs            mass_spring | electric_network (default mass_spring)\n";
     std::cerr << "  --stages         required for impl_rk_gauss_legendre / impl_rk_gauss_radau (positive integer)\n";
     std::cerr << "  --n-factor       optional, scales default steps N=100 (default 1.0)\n";
     std::cerr << "  --t-end-factor   optional, scales default T_end = 4*pi (default 1.0)\n";
@@ -90,6 +107,7 @@ int main(int argc, char* argv[])
   double tend_fact = 1.0;
   bool n_overridden = false;
   bool t_overridden = false;
+  std::string rhs_name = "mass_spring";
 
   auto normalize_option = [](const std::string& opt) {
     if (opt.rfind("--", 0) == 0)
@@ -125,6 +143,9 @@ int main(int argc, char* argv[])
     try {
       if (key == "stepper") {
         stepper_name = value;
+      }
+      else if (key == "rhs") {
+        rhs_name = value;
       }
       else if (key == "stages") {
         stages = parse_stages(value.c_str());
@@ -176,7 +197,20 @@ int main(int argc, char* argv[])
   double tau = tend/steps;
 
   Vector<> y = { 1, 0 };  // initializer list
-  auto rhs = std::make_shared<MassSpring>(1.0, 1.0);
+  std::shared_ptr<NonlinearFunction> rhs;
+  if (rhs_name == "mass_spring") {
+    rhs = std::make_shared<MassSpring>(1.0, 1.0);
+  }
+  else if (rhs_name == "electric_network") {
+    // TODO: instantiate ElectricNetwork with proper parameters once implemented
+    std::cerr << "Electric network RHS not implemented yet. Please extend ElectricNetwork and update this block." << std::endl;
+    return 1;
+  }
+  else {
+    std::cerr << "Unknown RHS '" << rhs_name << "'." << std::endl;
+    print_usage();
+    return 1;
+  }
 
   std::unique_ptr<TimeStepper> stepper;
   if (stepper_name == "exp_euler") {

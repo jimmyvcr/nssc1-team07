@@ -37,6 +37,33 @@ cmake ..
 make
 ```
 
+To run the main demo with default settings (mass-spring system, explicit Euler), execute
+
+```
+cd build
+./test_ode --stepper exp_euler --rhs mass_spring
+```
+and then use `python demos/plotmassspring.py <output>.txt` from the repository root to generate figures.
+
+## Command-line interface of `test_ode`
+
+`test_ode` now uses named options so different steppers and right-hand sides can be selected consistently:
+
+```
+./test_ode --stepper <name> [--rhs <mass_spring|electric_network>] [--stages <int>] [--n-factor <double>] [--t-end-factor <double>]
+```
+
+- `--stepper` (required): `exp_euler`, `impl_euler`, `impr_euler`, `crank_nicolson`, `impl_rk_gauss_legendre`, `impl_rk_gauss_radau`.
+- `--rhs` (default `mass_spring`): switches the modeled system. `electric_network` is reserved for the upcoming circuit model.
+- `--stages`: required only for the Gauss–Legendre/Gauss–Radau implicit RK steppers; specifies the number of stages.
+- `--n-factor`, `--t-end-factor`: scale the baseline number of steps (`N=100`) and simulation horizon (`T_end=4π`).
+
+Both `--opt value` and `--opt=value` syntaxes are supported. Example (3-stage Gauss–Legendre with increased resolution and end-time):
+
+```
+./test_ode --rhs mass_spring --stepper impl_rk_gauss_legendre --stages 3 --n-factor 10 --t-end-factor 10
+```
+
 # Exercise 1
 ## Different time-steps and larger end-times
 Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.  
@@ -170,6 +197,8 @@ Each invocation drops the corresponding `mass_spring_time_evolution_*.png` and `
 
 
 # Exercise 2
+## Electric Network
+
 ## Autodiff
 To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class operators and functions were added:
 * Operators:
