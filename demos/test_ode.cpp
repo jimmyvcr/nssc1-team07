@@ -213,6 +213,7 @@ int main(int argc, char* argv[])
   }
 
   std::unique_ptr<TimeStepper> stepper;
+  std::string stepper_tag = stepper_name;
   if (stepper_name == "exp_euler") {
     stepper = std::make_unique<ExplicitEuler>(rhs);
   }
@@ -260,6 +261,7 @@ int main(int argc, char* argv[])
     }
 
     stepper = std::make_unique<ImplicitRungeKutta>(rhs, a, b, c);
+    stepper_tag = stepper_name + "_s" + std::to_string(stages);
   } 
   else if (stepper_name == "impl_rk_gauss_radau") {
     if (!stages_overridden) {
@@ -273,6 +275,7 @@ int main(int argc, char* argv[])
     Matrix<> a = a_tmp;
     Vector<> b = b_tmp;
     stepper = std::make_unique<ImplicitRungeKutta>(rhs, a, b, c);
+    stepper_tag = stepper_name + "_s" + std::to_string(stages);
   }
 
   else {
@@ -287,7 +290,7 @@ int main(int argc, char* argv[])
   bool n_modified = n_overridden && std::abs(n_fact - default_factor) > eps;
 
   std::ostringstream namebuilder;
-  namebuilder << "mass_spring_" << stepper_name;
+  namebuilder << rhs_name << "_" << stepper_tag;
   if (!t_modified && !n_modified) {
     namebuilder << "_nomod";
   }

@@ -5,21 +5,38 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-STEPPER_NAMES = {"exp_euler", "impl_euler", "impr_euler", "crank_nicolson"}
+STEPPER_NAMES = {
+    "exp_euler",
+    "impl_euler",
+    "impr_euler",
+    "crank_nicolson",
+    "impl_rk_gauss_legendre",
+    "impl_rk_gauss_radau",
+}
 STEPPER_DIRS = {
     "exp_euler": "ExplicitEuler",
     "impl_euler": "ImplicitEuler",
     "impr_euler": "ImprovedEuler",
     "crank_nicolson": "CrankNicolson",
+    "impl_rk_gauss_legendre": "ImplicitRK_GaussLegendre",
+    "impl_rk_gauss_radau": "ImplicitRK_GaussRadau",
 }
-PREFIX = "mass_spring_"
+SYSTEM_LABELS = {
+    "mass_spring": "Mass-Spring System",
+    "electric_network": "Electric Network",
+}
+SYSTEM_PREFIXES = sorted(SYSTEM_LABELS.keys(), key=len, reverse=True)
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BUILD_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "build"))
 
 
 def usage():
-    print("Usage: python plotmassspring.py <mass_spring_*.txt>")
+    print("Usage: python plot_ode_results.py <system_stepper_*.txt>")
     sys.exit(1)
+
+
+def prettify_system(system):
+    return SYSTEM_LABELS.get(system, system.replace("_", " ").title())
 
 
 def parse_metadata(filepath):
@@ -27,10 +44,20 @@ def parse_metadata(filepath):
     name, ext = os.path.splitext(basename)
     if ext.lower() != ".txt":
         raise ValueError("Input file must use .txt extension")
-    if not name.startswith(PREFIX):
-        raise ValueError("Input file must start with 'mass_spring_'")
 
-    remainder = name[len(PREFIX):]
+    system = None
+    remainder = ""
+    for candidate in SYSTEM_PREFIXES:
+        prefix = candidate + "_"
+        if name.startswith(prefix):
+            system = candidate
+            remainder = name[len(prefix):]
+            break
+    if system is None or not remainder:
+        raise ValueError(
+            "Filename must start with a known system prefix like 'mass_spring_'"
+        )
+
     stepper = None
     suffix = ""
     for candidate in STEPPER_NAMES:
@@ -47,15 +74,16 @@ def parse_metadata(filepath):
     tend_factor = None
     n_factor = None
     has_nomod = False
+    stage_count = None
     for token in tokens:
         if token == "nomod":
             has_nomod = True
+        elif token.startswith("s") and token[1:].isdigit():
+            stage_count = token[1:]
         elif token.endswith("tend"):
-            value = token[:-4]
-            tend_factor = value
+            tend_factor = token[:-4]
         elif token.endswith("steps"):
-            value = token[:-5]
-            n_factor = value
+            n_factor = token[:-5]
 
     modifiers = "no modification"
     modifier_parts = []
@@ -69,32 +97,42 @@ def parse_metadata(filepath):
         modifiers = "no modification"
 
     pretty_stepper = stepper.replace("_", " ").title()
-
-    suffix_for_name = suffix if suffix else stepper
+    if stage_count:
+        pretty_stepper += f" (s={stage_count})"
+    suffix_for_name = remainder if remainder else stepper
 
     return {
+        "system": system,
+        "pretty_system": prettify_system(system),
         "stepper": stepper,
         "pretty_stepper": pretty_stepper,
         "modifiers": modifiers,
         "suffix": suffix,
         "suffix_for_name": suffix_for_name,
-        "output_dir": STEPPER_DIRS[stepper],
+        "output_dir": STEPPER_DIRS.get(stepper, "plots"),
     }
+
+
+def resolve_input_path(requested_path):
+    if os.path.isfile(requested_path):
+        return requested_path
+    candidate = os.path.join(BUILD_DIR, os.path.basename(requested_path))
+    if os.path.isfile(candidate):
+        return candidate
+    raise FileNotFoundError(
+        f"Input file '{requested_path}' not found (also checked {candidate})"
+    )
 
 
 def main():
     if len(sys.argv) != 2:
         usage()
 
-    requested_path = sys.argv[1]
-    file_path = requested_path
-    if not os.path.isfile(file_path):
-        candidate = os.path.join(BUILD_DIR, os.path.basename(requested_path))
-        if os.path.isfile(candidate):
-            file_path = candidate
-        else:
-            print(f"Input file '{requested_path}' not found (also checked {candidate})")
-            sys.exit(1)
+    try:
+        file_path = resolve_input_path(sys.argv[1])
+    except FileNotFoundError as err:
+        print(err)
+        sys.exit(1)
 
     try:
         meta = parse_metadata(file_path)
@@ -115,20 +153,22 @@ def main():
     position = data[:, 1]
     velocity = data[:, 2]
 
+    suffix_tag = meta["suffix_for_name"]
+
     time_fig, time_ax = plt.subplots()
     time_ax.plot(time, position, label="position")
     time_ax.plot(time, velocity, label="velocity")
     time_ax.set_xlabel("time")
     time_ax.set_ylabel("value")
     time_ax.set_title(
-        f"Mass-Spring System Time Evolution, {meta['pretty_stepper']} ({meta['modifiers']})"
+        f"{meta['pretty_system']} Time Evolution, {meta['pretty_stepper']} ({meta['modifiers']})"
     )
     time_ax.legend()
     time_ax.grid(True)
 
-    suffix_tag = meta["suffix_for_name"]
-
-    time_output = os.path.join(output_dir, f"mass_spring_time_evolution_{suffix_tag}.png")
+    time_output = os.path.join(
+        output_dir, f"{meta['system']}_time_evolution_{suffix_tag}.png"
+    )
     time_fig.savefig(time_output, bbox_inches="tight")
     plt.close(time_fig)
 
@@ -137,11 +177,13 @@ def main():
     phase_ax.set_xlabel("position")
     phase_ax.set_ylabel("velocity")
     phase_ax.set_title(
-        f"Mass-Spring System Phase Plot, {meta['pretty_stepper']} ({meta['modifiers']})"
+        f"{meta['pretty_system']} Phase Plot, {meta['pretty_stepper']} ({meta['modifiers']})"
     )
     phase_ax.grid(True)
 
-    phase_output = os.path.join(output_dir, f"mass_spring_phase_{suffix_tag}.png")
+    phase_output = os.path.join(
+        output_dir, f"{meta['system']}_phase_{suffix_tag}.png"
+    )
     phase_fig.savefig(phase_output, bbox_inches="tight")
     plt.close(phase_fig)
 

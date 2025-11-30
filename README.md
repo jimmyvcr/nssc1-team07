@@ -43,7 +43,7 @@ To run the main demo with default settings (mass-spring system, explicit Euler),
 cd build
 ./test_ode --stepper exp_euler --rhs mass_spring
 ```
-and then use `python demos/plotmassspring.py <output>.txt` from the repository root to generate figures.
+and then use `python demos/plot_ode_results.py <output>.txt` from the repository root to generate figures.
 
 ## Command-line interface of `test_ode`
 
@@ -186,10 +186,10 @@ cd build
 Each run produces a `mass_spring_<stepper>_<suffix>.txt` file inside `build/`. To obtain the figures used in the report, run the plotting helper from the repository root (it automatically looks inside `build/` when only a filename is supplied):
 
 ```bash
-python demos/plotmassspring.py mass_spring_exp_euler_nomod.txt
-python demos/plotmassspring.py mass_spring_exp_euler_10steps.txt
-python demos/plotmassspring.py mass_spring_exp_euler_10tend.txt
-python demos/plotmassspring.py mass_spring_exp_euler_10tend_10steps.txt
+python demos/plot_ode_results.py mass_spring_exp_euler_nomod.txt
+python demos/plot_ode_results.py mass_spring_exp_euler_10steps.txt
+python demos/plot_ode_results.py mass_spring_exp_euler_10tend.txt
+python demos/plot_ode_results.py mass_spring_exp_euler_10tend_10steps.txt
 # …repeat for impr_euler, impl_euler, crank_nicolson
 ```
 
