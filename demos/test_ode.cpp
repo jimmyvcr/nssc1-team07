@@ -14,6 +14,7 @@
 
 #include <nonlinfunc.hpp>
 #include <timestepper.hpp>
+#include <implicitRK.hpp>
 
 using namespace ASC_ode;
 
@@ -47,10 +48,12 @@ public:
 int main(int argc, char* argv[])
 {
   auto print_usage = [argv]() {
-    std::cerr << "Usage: " << argv[0] << " <stepper> [N_factor] [T_end_factor]\n";
-    std::cerr << "  stepper      : exp_euler | impl_euler | impr_euler | crank_nicolson\n";
-    std::cerr << "  N_factor     : optional, scales default steps N=100 (default 1.0)\n";
-    std::cerr << "  T_end_factor : optional, scales default T_end = 4*pi (default 1.0)\n";
+    std::cerr << "Usage: " << argv[0] << " --stepper <name> [--stages <int>] [--n-factor <double>] [--t-end-factor <double>]\n";
+    std::cerr << "  --stepper        exp_euler | impl_euler | impr_euler | crank_nicolson | impl_rk_gauss_legendre | impl_rk_gauss_radau\n";
+    std::cerr << "  --stages         required for impl_rk_gauss_legendre / impl_rk_gauss_radau (positive integer)\n";
+    std::cerr << "  --n-factor       optional, scales default steps N=100 (default 1.0)\n";
+    std::cerr << "  --t-end-factor   optional, scales default T_end = 4*pi (default 1.0)\n";
+    std::cerr << "Arguments accept either '--opt value' or '--opt=value' forms.\n";
   };
 
   auto parse_factor = [](const char* text, const char* name) {
@@ -62,30 +65,100 @@ int main(int argc, char* argv[])
     return value;
   };
 
-  if (argc < 2 || argc > 4) {
+  auto parse_stages = [](const char* text) {
+    errno = 0;
+    char* end = nullptr;
+    long value = std::strtol(text, &end, 10);
+    if (end == text || *end != '\0' || errno == ERANGE || value <= 0)
+      throw std::invalid_argument(std::string("Invalid stages: ") + text);
+    return static_cast<int>(value);
+  };
+
+  if (argc == 1) {
     print_usage();
     return 1;
   }
 
-  std::string stepper_name = argv[1];
+  std::string stepper_name;
+  auto needs_stages = [](const std::string& name) {
+    return name == "impl_rk_gauss_legendre" || name == "impl_rk_gauss_radau";
+  };
+  int stages = 0;
+  bool stages_overridden = false;
+
   double n_fact = 1.0;
   double tend_fact = 1.0;
   bool n_overridden = false;
   bool t_overridden = false;
 
-  try {
-    if (argc >= 3) {
-      n_fact = parse_factor(argv[2], "N_factor");
-      n_overridden = true;
+  auto normalize_option = [](const std::string& opt) {
+    if (opt.rfind("--", 0) == 0)
+      return opt.substr(2);
+    return opt;
+  };
+
+  for (int i = 1; i < argc; ++i) {
+    std::string arg = argv[i];
+
+    if (arg == "-h" || arg == "--help") {
+      print_usage();
+      return 0;
     }
-    if (argc == 4) {
-      tend_fact = parse_factor(argv[3], "T_end_factor");
-      t_overridden = true;
+
+    std::string key = arg;
+    std::string value;
+    auto eq_pos = arg.find('=');
+    if (eq_pos != std::string::npos) {
+      key = arg.substr(0, eq_pos);
+      value = arg.substr(eq_pos + 1);
+    } else {
+      if (i + 1 >= argc) {
+        std::cerr << "Missing value for option '" << arg << "'." << std::endl;
+        print_usage();
+        return 1;
+      }
+      value = argv[++i];
+    }
+
+    key = normalize_option(key);
+
+    try {
+      if (key == "stepper") {
+        stepper_name = value;
+      }
+      else if (key == "stages") {
+        stages = parse_stages(value.c_str());
+        stages_overridden = true;
+      }
+      else if (key == "n-factor") {
+        n_fact = parse_factor(value.c_str(), "N_factor");
+        n_overridden = true;
+      }
+      else if (key == "t-end-factor") {
+        tend_fact = parse_factor(value.c_str(), "T_end_factor");
+        t_overridden = true;
+      }
+      else {
+        std::cerr << "Unknown option '--" << key << "'." << std::endl;
+        print_usage();
+        return 1;
+      }
+    }
+    catch (const std::exception& err) {
+      std::cerr << err.what() << std::endl;
+      print_usage();
+      return 1;
     }
   }
-  catch (const std::exception& err) {
-    std::cerr << err.what() << std::endl;
+
+  if (stepper_name.empty()) {
+    std::cerr << "Missing required --stepper option." << std::endl;
     print_usage();
+    return 1;
+  }
+
+  if (needs_stages(stepper_name) && !stages_overridden) {
+    std::cerr << stepper_name << " requires --stages <int>." << std::endl;
     return 1;
   }
 
@@ -118,6 +191,56 @@ int main(int argc, char* argv[])
   else if (stepper_name == "crank_nicolson") {
     stepper = std::make_unique<CrankNicolson>(rhs);
   }
+  else if (stepper_name == "exp_rk") {
+    // TODO: script for ExplicitRungeKutta here
+  }
+  else if (stepper_name == "impl_rk_gauss_legendre") {
+    if (!stages_overridden) {
+      std::cerr << "Legendre IRK requires a stages argument." << std::endl;
+      return 1;
+    }
+
+    Matrix<> a(stages, stages);
+    Vector<> b(stages), c(stages);
+
+    if (stages == 2) {
+      // Example: reuse predefined Gauss-Legendre tableau
+      a = Gauss2a;
+      b = Gauss2b;
+      c = Gauss2c;
+    }
+    else if (stages == 3) {
+      // Example: take tabulated nodes and derive coefficients programmatically
+      c = Gauss3c;
+      auto [a_tmp, b_tmp] = ComputeABfromC(c);
+      a = a_tmp;
+      b = b_tmp;
+    }
+    else {
+      // General construction: compute nodes (c) via Gauss-Legendre and build a,b
+      Vector<> quad_weights(stages);
+      GaussLegendre(c, quad_weights);
+      auto [a_tmp, b_tmp] = ComputeABfromC(c);
+      a = a_tmp;
+      b = b_tmp;
+    }
+
+    stepper = std::make_unique<ImplicitRungeKutta>(rhs, a, b, c);
+  } 
+  else if (stepper_name == "impl_rk_gauss_radau") {
+    if (!stages_overridden) {
+      std::cerr << "Radau IRK requires a stages argument." << std::endl;
+      return 1;
+    }
+
+    Vector<> c(stages), weights(stages);
+    GaussRadau(c, weights);
+    auto [a_tmp, b_tmp] = ComputeABfromC(c);
+    Matrix<> a = a_tmp;
+    Vector<> b = b_tmp;
+    stepper = std::make_unique<ImplicitRungeKutta>(rhs, a, b, c);
+  }
+
   else {
     std::cerr << "Unknown stepper '" << stepper_name << "'." << std::endl;
     print_usage();
