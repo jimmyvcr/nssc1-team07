@@ -37,18 +37,6 @@ cmake ..
 make
 ```
 
-Then run
-```
-cd build
-./test_ode
-cd ..
-```
-and to see the plots run
-```
-cd demos
-python plotmassspring.py
-```
-
 # Exercise 1
 ## Different time-steps and larger end-times
 Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.  
@@ -136,6 +124,50 @@ Notably, it is even stabler then the improved Euler as the number of steps gets 
 <img src="demos/CrankNicolson/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
 <img src="demos/CrankNicolson/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/CrankNicolson/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
+
+### Reproducing the datasets
+All curves for Exercise&nbsp;1 were generated from the `build/` directory with the following commands (named CLI options are required now):
+
+```bash
+cd build
+
+# Explicit Euler
+./test_ode --stepper exp_euler
+./test_ode --stepper exp_euler --n-factor 10
+./test_ode --stepper exp_euler --t-end-factor 10
+./test_ode --stepper exp_euler --n-factor 10 --t-end-factor 10
+
+# Improved Euler
+./test_ode --stepper impr_euler
+./test_ode --stepper impr_euler --n-factor 10
+./test_ode --stepper impr_euler --t-end-factor 10
+./test_ode --stepper impr_euler --n-factor 10 --t-end-factor 10
+
+# Implicit Euler
+./test_ode --stepper impl_euler
+./test_ode --stepper impl_euler --n-factor 10
+./test_ode --stepper impl_euler --t-end-factor 10
+./test_ode --stepper impl_euler --n-factor 10 --t-end-factor 10
+
+# Crank–Nicolson
+./test_ode --stepper crank_nicolson
+./test_ode --stepper crank_nicolson --n-factor 10
+./test_ode --stepper crank_nicolson --t-end-factor 10
+./test_ode --stepper crank_nicolson --n-factor 10 --t-end-factor 10
+```
+
+Each run produces a `mass_spring_<stepper>_<suffix>.txt` file inside `build/`. To obtain the figures used in the report, run the plotting helper from the repository root (it automatically looks inside `build/` when only a filename is supplied):
+
+```bash
+python demos/plotmassspring.py mass_spring_exp_euler_nomod.txt
+python demos/plotmassspring.py mass_spring_exp_euler_10steps.txt
+python demos/plotmassspring.py mass_spring_exp_euler_10tend.txt
+python demos/plotmassspring.py mass_spring_exp_euler_10tend_10steps.txt
+# …repeat for impr_euler, impl_euler, crank_nicolson
+```
+
+Each invocation drops the corresponding `mass_spring_time_evolution_*.png` and `mass_spring_phase_*.png` files into the stepper-specific folder under `demos/`.
+
 
 # Exercise 2
 ## Autodiff
