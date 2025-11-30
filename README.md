@@ -15,9 +15,14 @@ Members:
 
 # The Task
 * Solve the exercises from the jupyterbook: [LINK](https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html)
-    * Jupyterbook Sections 14 - 17
-    * First Exercise: Implementing the explicit Euler method [LINK](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ee.html#exercise:~:text=Implementing%20the%20explicit%20Euler%20method,-We)
-    * Second Exercise: Coding the Implicit Euler method [LINK](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#:~:text=Coding%20the%20Implicit%20Euler%20method,-In)
+    * Exercise 1: Jupyterbook Sections 14 - 17 
+        * [Explicit and Improved Euler](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ee.html#exercise)
+        * [Implicit Euler and Crank-Nicolson](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#excercises) (first 3 tasks)
+    * Exercise 2: Jupyterbook Sections 17 - 19
+        * [Model electric network with ODE](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#excercises) (last task)
+        * [Automatic Differentiation part1](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercises)
+        * [Automatic Differentiation part2](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercise-test-the-autodiff-class-for-the-pendulum)
+        * [Runge-Kutta methods](https://jschoeberl.github.io/IntroSC/ODEs/RungeKutta.html#exercises)
 * Push your homework into your git repository (this repository)
 
 # How to compile?
@@ -44,7 +49,7 @@ cd demos
 python plotmassspring.py
 ```
 
-# Exercises
+# Exercise 1
 ## Different time-steps and larger end-times
 Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.  
 
@@ -131,3 +136,39 @@ Notably, it is even stabler then the improved Euler as the number of steps gets 
 <img src="demos/CrankNicolson/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
 <img src="demos/CrankNicolson/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/CrankNicolson/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
+
+# Exercise 2
+## Autodiff
+To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class operators and functions were added:
+* Operators:
+    * operator* (T a, const AutoDiff<N,T>& b): scalar multiplication
+    * operator/ (const AutoDiff<N,T>& a, const AutoDiff<N,T>& b): division using the quotient rule
+    * operator- (const AutoDiff<N,T>& a, const AutoDiff<N,T>& b): subtraction
+    * operator- (const AutoDiff<N, T> &a): unary negation of value and derivatives
+    * operator== (const AutoDiff<N,T>& a, const AutoDiff<N,T>& b): compares both values and derivatives
+* Functions:
+    * Basic trigonometric functions cos(x), tan(x): cos (const AutoDiff<N, T> &a), tan (const AutoDiff<N, T> &a)
+    * Exponential $e^x$: exp (const AutoDiff<N, T> &a) 
+    * Logarithmic log(x): log (const AutoDiff<N, T> &a)
+    * Power $a^x$, $x^a$: pow (const AutoDiff<N, T> &a, T exp), pow (T a,const AutoDiff<N, T> &exp)
+    * Squareroot $\sqrt{x}$ as a wrapper of pow function: sqr (const AutoDiff<N, T>& a)
+
+### Legendre Polynomials
+`legendre_autodiff.cpp` evaluates Legendre polynomials up to order 5 over the interval `[-1, 1]` and writes the results to a CSV file with columns x, P0, dP0/dx, P1, dP1/dx, ..., P5, dP5/dx
+
+`plot_legendre.py` reads this CSV and generates plots of the polynomials and their derivatives. Both the CSV and the plots are saved in `demos/Legendre`.
+
+**Compilation:**
+```bash
+g++ -std=c++20 -I./src demos/legendre_autodiff.cpp -o demos/legendre_autodiff
+```
+
+The pendulum class is implemented in `nonlinfunc.hpp`.
+`pendulum_demo.cpp` evaluates the pendulum system and prints the function values and Jacobian to the terminal.
+
+**Compilation:**
+```bash
+g++ -std=c++20 -I./src demos/legendre_autodiff.cpp -o demos/legendre_autodiff
+```
+
+
