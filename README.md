@@ -207,9 +207,55 @@ python demos/plot_ode_results.py mass_spring_exp_euler_10tend_10steps.txt
 
 Each invocation drops the corresponding `mass_spring_time_evolution_*.png` and `mass_spring_phase_*.png` files into the stepper-specific folder under `demos/`.
 
-
 # Exercise 2
 ## Electric Network
+The system is described by a second-order ODE ($y_1'(t) = -\frac{1}{RC} y_1(t) + \frac{1}{RC} \cos(\omega t))$, converted into a 2D system where the state vector y = (position, velocity). For the electric circuit analogy, "position" represents the charge on the capacitor and "velocity" represents the current.
+
+### Comparison of Methods
+#### Explicit Euler (Unstable and Adds Energy)
+The Explicit Euler method is only conditionally stable and is unsuitable for purely oscillatory systems. Its stability region does not cover the imaginary axis, where the eigenvalues for this system lie.
+
+##### Standard Time Step: 
+The phase plot shows a clear outward spiral, and the time evolution plot reveals a slowly but steadily increasing amplitude. The method continuously adds artificial energy to the system, causing it to diverge from the true solution.
+
+##### Large Time Step (10 * tend): 
+The instability becomes more visible. The solution is immediately thrown into a high-energy state. The phase plot is jagged, and the time evolution is non-physical. This shows a complete breakdown of the method.
+
+<img src="demos/ExplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ExplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="demos/ExplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ExplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+
+#### Implicit Euler (Removes Energy)
+In direct contrast to its explicit counterpart, the Implicit Euler method is stable, but this stability comes at the cost of introducing significant numerical damping.
+
+##### Standard Time Step: 
+The phase plot shows an inward spiral, and the time evolution plot shows the amplitude slowly decaying. The method artificially removes energy from the system, which is incorrect for a conservative system.
+
+##### Large Time Step (10 * tend): 
+The damping effect is more visible. The amplitude is immediately and severely dampened, settling into a low-energy oscillation that is a fraction of the true solution's amplitude. While the method remains stable, it is inaccurate, as it has dissipated a significant portion of the system's energy.
+
+<img src="demos/ImplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="demos/ImplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+
+#### Crank-Nicolson (Preserves Energy)
+The Crank-Nicolson method shows better stability and accuracy for oscillatory problems, correctly capturing the conservative nature of the system.
+
+##### Standard Time Step: 
+The phase plot shows a stable, closed loop, and the time evolution shows a constant amplitude. The method accurately preserves the system's energy.
+
+##### Large Time Step (10 * tend): 
+Even with a much larger time step, the method remains stable and energy preserving. The amplitude of the oscillation does not grow or decay. The trajectory becomes more angular due to the coarse time step, but it remains on a stable, closed path. This shows its suitability simulations of oscillatory systems.
+
+<img src="demos/CrankNicolson/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/CrankNicolson/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="demos/CrankNicolson/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/CrankNicolson/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
 
 ## Autodiff
 To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class operators and functions were added:
