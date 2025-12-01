@@ -39,7 +39,7 @@ namespace ASC_ode {
       auto multiple_rhs = std::make_shared<MultipleFunc>(rhs, m_stages);
       m_yold = std::make_shared<ConstantFunction>(m_stages*m_n);
       auto knew = std::make_shared<IdentityFunction>(m_stages*m_n);
-      m_equ = knew - Compose(multiple_rhs, m_yold + m_tau * std::make_shared<MatVecFunc>(a, m_n));
+      m_equ = knew - Compose(multiple_rhs, m_yold + m_tau * std::make_shared<MatVecFunc>(m_a, m_n));
     }
 
     void DoStep(double tau, VectorView<double> y) override
