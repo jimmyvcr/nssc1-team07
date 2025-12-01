@@ -246,7 +246,7 @@ The pendulum class is implemented in `nonlinfunc.hpp`.
 g++ -std=c++20 -I./src demos/legendre_autodiff.cpp -o demos/legendre_autodiff
 ```
 
-## Runge-Ketta (RK) method for the mass spring system
+## Runge-Kutta (RK)
 The order of the RK method depends on the polynomial exactness of the quadrature rule used.
 We compare to quadrature rules:
 1. Gauss–Radau
@@ -290,8 +290,8 @@ Both methods still exhibit a phase shift as the simulation lengthens.
 
 
 ### 3-point Runge-Kutta
-Upgrading to three quadrature nodes ($s = 3$) further boosts the accuracy of both collocation schemes.
-The extra stage virtually removes the phase drift and suppresses amplitude damping, with only a slight residual decay visible for Gauss–Radau.
+Adding an extra quadrature point for a total of $s=3$ points notably improves accuracy of the RK method for both quadrature schemes.
+It effectively eliminates phase shift and reduces errors due to amplitude decay (although Gauss-Radau still experiences some decay).
 
 #### Gauss-Radau quadrature
 
