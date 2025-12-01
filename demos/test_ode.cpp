@@ -45,20 +45,48 @@ public:
   }
 };
 
-// TODO: replace stub with actual electric network model once available
+// DONE: replace stub with actual electric network model once available
 class ElectricNetwork : public NonlinearFunction
 {
+private:
+    double m_R, m_C, m_omega;
+
 public:
-  size_t dimX() const override { throw std::logic_error("ElectricNetwork::dimX not implemented yet"); }
-  size_t dimF() const override { throw std::logic_error("ElectricNetwork::dimF not implemented yet"); }
-  void evaluate (VectorView<double> x, VectorView<double> f) const override
-  {
-    throw std::logic_error("ElectricNetwork::evaluate not implemented yet");
-  }
-  void evaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
-  {
-    throw std::logic_error("ElectricNetwork::evaluateDeriv not implemented yet");
-  }
+    // Constructor to store RC circuit parameters
+    ElectricNetwork(double R, double C, double omega) 
+      : m_R(R), m_C(C), m_omega(omega) {}
+
+    // Our state vector y = (Uc, t) has 2 dimensions
+    size_t dimX() const override { return 2; }
+    size_t dimF() const override { return 2; }
+
+    // This implements y' = f(y) for the autonomous system
+    void evaluate (VectorView<double> x, VectorView<double> f) const override {
+        // x(0) = Uc, x(1) = t
+        double invRC = 1.0 / (m_R * m_C);
+        
+        // f(0) is the derivative of Uc
+        f(0) = -invRC * x(0) + invRC * std::cos(m_omega * x(1));
+        
+        // f(1) is the derivative of t
+        f(1) = 1.0;
+    }
+
+    // This implements the Jacobian matrix of f
+    void evaluateDeriv (VectorView<double> x, MatrixView<double> df) const override {
+        // x(0) = Uc, x(1) = t
+        df = 0.0;
+        double invRC = 1.0 / (m_R * m_C);
+
+        // Row 0: Derivatives of f(0)
+        // d(f(0))/d(x(0))
+        df(0, 0) = -invRC;
+        // d(f(0))/d(x(1))
+        df(0, 1) = -invRC * m_omega * std::sin(m_omega * x(1));
+
+        // Row 1: Derivatives of f(1)
+        // d(f(1))/d(x(0)) = 0 and d(f(1))/d(x(1)) = 0, already set by df = 0.0
+    }
 };
 
 int main(int argc, char* argv[])
@@ -196,15 +224,16 @@ int main(int argc, char* argv[])
   }
   double tau = tend/steps;
 
-  Vector<> y = { 1, 0 };  // initializer list
+  Vector<> y = { 0, 0 };  // Initial state: Uc=0, t=0
   std::shared_ptr<NonlinearFunction> rhs;
   if (rhs_name == "mass_spring") {
     rhs = std::make_shared<MassSpring>(1.0, 1.0);
   }
   else if (rhs_name == "electric_network") {
-    // TODO: instantiate ElectricNetwork with proper parameters once implemented
-    std::cerr << "Electric network RHS not implemented yet. Please extend ElectricNetwork and update this block." << std::endl;
-    return 1;
+    // DONE: instantiate ElectricNetwork with proper parameters once implemented
+    const double omega = 1.0;
+    // Using parameters R=1, C=1 from the exercise
+    rhs = std::make_shared<ElectricNetwork>(1.0, 1.0, omega);
   }
   else {
     std::cerr << "Unknown RHS '" << rhs_name << "'." << std::endl;
