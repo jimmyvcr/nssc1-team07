@@ -54,12 +54,12 @@ namespace ASC_ode {
 
 
 
-Matrix<double> Gauss2a { { 0.25, 0.25 - sqrt(3)/6 }, { 0.25 + sqrt(3)/6, 0.25 } };
+Matrix<double> Gauss2a { { 0.25, 0.25 - std::sqrt(3)/6 }, { 0.25 + std::sqrt(3)/6, 0.25 } };
 Vector<> Gauss2b { 0.5, 0.5 };
-Vector<> Gauss2c { 0.5 - sqrt(3)/6, 0.5 + sqrt(3)/6 };
+Vector<> Gauss2c { 0.5 - std::sqrt(3)/6, 0.5 + std::sqrt(3)/6 };
 
 
-Vector<> Gauss3c { 0.5 - sqrt(15)/10, 0.5, 0.5+sqrt(15)/10 };
+Vector<> Gauss3c { 0.5 - std::sqrt(15)/10, 0.5, 0.5+std::sqrt(15)/10 };
 
 
 // codes from Numerical Recipes, https://numerical.recipes/book.html
@@ -168,8 +168,8 @@ void GaussJacobi (VectorView<> x, VectorView<> w, const double alf, const double
     }
     if (its > MAXIT) throw("too many iterations in gaujac");
     x[i]=z;    // Store the root and the weight.
-    w[i]=exp(std::lgamma(alf+n)+std::lgamma(bet+n)-std::lgamma(n+1.0)-
-             std::lgamma(n+alfbet+1.0))*temp*pow(2.0,alfbet)/(pp*p2);
+    w[i]=std::exp(std::lgamma(alf+n)+std::lgamma(bet+n)-std::lgamma(n+1.0)-
+             std::lgamma(n+alfbet+1.0))*temp*std::pow(2.0,alfbet)/(pp*p2);
   }
 }
 
