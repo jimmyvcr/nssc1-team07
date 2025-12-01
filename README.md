@@ -218,6 +218,8 @@ To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class 
 `legendre_autodiff.cpp` evaluates Legendre polynomials up to order 5 over the interval `[-1, 1]` and writes the results to a CSV file with columns x, P0, dP0/dx, P1, dP1/dx, ..., P5, dP5/dx
 
 `plot_legendre.py` reads this CSV and generates plots of the polynomials and their derivatives. Both the CSV and the plots are saved in `demos/Legendre`.
+<img src="demos/Legendre/legendre_polynomials.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/Legendre/legendre_polynomials_derivatives.png" width="45%" style="display:inline-block;">
 
 **Compilation:**
 ```bash
