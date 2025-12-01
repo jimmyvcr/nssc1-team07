@@ -99,7 +99,7 @@ def parse_metadata(filepath):
     pretty_stepper = stepper.replace("_", " ").title()
     if stage_count:
         pretty_stepper += f" (s={stage_count})"
-    suffix_for_name = remainder if remainder else stepper
+    suffix_for_name = suffix if suffix else "nomod"
 
     return {
         "system": system,

@@ -25,7 +25,8 @@ Members:
         * [Runge-Kutta methods](https://jschoeberl.github.io/IntroSC/ODEs/RungeKutta.html#exercises)
 * Push your homework into your git repository (this repository)
 
-# How to compile?
+# Running the Code
+## How to compile?
 `git clone git@github.com:jimmyvcr/nssc1-team07.git`
 
 Then you can use cmake to build ASC-ODE:
@@ -43,7 +44,6 @@ To run the main demo with default settings (mass-spring system, explicit Euler),
 cd build
 ./test_ode --stepper exp_euler --rhs mass_spring
 ```
-and then use `python demos/plot_ode_results.py <output>.txt` from the repository root to generate figures.
 
 ## Command-line interface of `test_ode`
 
@@ -63,6 +63,18 @@ Both `--opt value` and `--opt=value` syntaxes are supported. Example (3-stage Ga
 ```
 ./test_ode --rhs mass_spring --stepper impl_rk_gauss_legendre --stages 3 --n-factor 10 --t-end-factor 10
 ```
+
+## Plotting
+First, navigate to the root directory and install all Python dependencies using `uv`:
+```bash
+uv sync
+```
+After running the `test_ode` programm as described above, you can plot the results saved to `build/<system>_<stepper>_*.txt` by calling:
+
+```bash
+uv run demos/plot_ode_results.py build/<system>_<stepper>_*.txt
+```
+The plots will be saved to `demos/<Stepper>/<system>_phase_*.png` and `demos/<Stepper>/<system>_time_evolution_*.png`.
 
 # Exercise 1
 ## Different time-steps and larger end-times
@@ -214,7 +226,7 @@ To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class 
     * Power $a^x$, $x^a$: pow (const AutoDiff<N, T> &a, T exp), pow (T a,const AutoDiff<N, T> &exp)
     * Squareroot $\sqrt{x}$ as a wrapper of pow function: sqr (const AutoDiff<N, T>& a)
 
-### Legendre Polynomials
+### Legendre polynomials
 `legendre_autodiff.cpp` evaluates Legendre polynomials up to order 5 over the interval `[-1, 1]` and writes the results to a CSV file with columns x, P0, dP0/dx, P1, dP1/dx, ..., P5, dP5/dx
 
 `plot_legendre.py` reads this CSV and generates plots of the polynomials and their derivatives. Both the CSV and the plots are saved in `demos/Legendre`.
@@ -233,5 +245,74 @@ The pendulum class is implemented in `nonlinfunc.hpp`.
 ```bash
 g++ -std=c++20 -I./src demos/legendre_autodiff.cpp -o demos/legendre_autodiff
 ```
+
+## Runge-Ketta (RK) method for the mass spring system
+The order of the RK method depends on the polynomial exactness of the quadrature rule used.
+We compare to quadrature rules:
+1. Gauss–Radau
+- One endpoint is included (left or right)
+- $s$ nodes $\to$ polynomial exactness up to degree $2s−2$
+- RK method order = $2s−1$
+
+2. Gauss–Legendre
+- No endpoints included
+- $s$ nodes $\to$ polynomial exactness up to degree $2s−1$
+- RK method order = 2s (optimal!)
+
+### 2-point Runge-Kutta
+The 2‑stage RK schemes extend the midpoint rule by adding a second quadrature node.
+Because Gauss–Legendre places both nodes strictly inside the interval, it achieves higher accuracy than Gauss–Radau, which fixes one node at the endpoint.
+The impact shows up most clearly for long simulations (third row):
+Gauss–Radau’s solution amplitude decays rapidly, while Gauss–Legendre preserves the oscillation almost perfectly.
+Both methods still exhibit a phase shift as the simulation lengthens.
+
+#### Gauss-Radau quadrature
+
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s2_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s2_nomod.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s2_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s2_10steps.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s2_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s2_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s2_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s2_10tend_10steps.png" width="45%" style="display:inline-block;">
+
+#### Gauss-Legendre quadrature
+
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s2_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s2_nomod.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s2_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s2_10steps.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s2_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s2_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s2_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s2_10tend_10steps.png" width="45%" style="display:inline-block;">
+
+
+### 3-point Runge-Kutta
+Upgrading to three quadrature nodes ($s = 3$) further boosts the accuracy of both collocation schemes.
+The extra stage virtually removes the phase drift and suppresses amplitude damping, with only a slight residual decay visible for Gauss–Radau.
+
+#### Gauss-Radau quadrature
+
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s3_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s3_nomod.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s3_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s3_10steps.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s3_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s3_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s3_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s3_10tend_10steps.png" width="45%" style="display:inline-block;">
+
+#### Gauss-Legendre quadrature
+
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s3_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s3_nomod.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s3_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s3_10steps.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s3_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s3_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s3_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s3_10tend_10steps.png" width="45%" style="display:inline-block;">
 
 
