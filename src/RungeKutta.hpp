@@ -1,14 +1,23 @@
-#ifndef IMPLICITRK_HPP
-#define IMPLICITRK_HPP
+#ifndef RK_HPP
+#define RK_HPP
+
+#include <cmath>
+#include <memory>
+#include <tuple>
 
 #include <vector.hpp>
 #include <matrix.hpp>
 #include <inverse.hpp>
 
+#include "nonlinfunc.hpp"
+#include "timestepper.hpp"
+
 namespace ASC_ode {
   using namespace nanoblas;
 
-
+  class ExplicitRungeKutta : public TimeStepper
+  {
+  };
 
   class ImplicitRungeKutta : public TimeStepper
   {
@@ -27,10 +36,10 @@ namespace ASC_ode {
     m_tau(std::make_shared<Parameter>(0.0)),
     m_stages(c.size()), m_n(rhs->dimX()), m_k(m_stages*m_n), m_y(m_stages*m_n)
     {
-      auto multiple_rhs = make_shared<MultipleFunc>(rhs, m_stages);
+      auto multiple_rhs = std::make_shared<MultipleFunc>(rhs, m_stages);
       m_yold = std::make_shared<ConstantFunction>(m_stages*m_n);
       auto knew = std::make_shared<IdentityFunction>(m_stages*m_n);
-      m_equ = knew - Compose(multiple_rhs, m_yold+m_tau*std::make_shared<MatVecFunc>(a, m_n));
+      m_equ = knew - Compose(multiple_rhs, m_yold + m_tau * std::make_shared<MatVecFunc>(a, m_n));
     }
 
     void DoStep(double tau, VectorView<double> y) override
@@ -79,7 +88,7 @@ void GaussLegendre(VectorView<> x, VectorView<> w)
     xm=0.5*(x2+x1); // we only have to find half of them.
     xl=0.5*(x2-x1);
     for (int i=0;i<m;i++) {  // Loop over the desired roots.
-      z=cos(3.141592654*(i+0.75)/(n+0.5));
+      z = std::cos(3.141592654*(i+0.75)/(n+0.5));
       // Starting with this approximation to the ith root, we enter the main loop of refinement
       // by Newton’s method.
       do {
@@ -95,7 +104,7 @@ void GaussLegendre(VectorView<> x, VectorView<> w)
         pp=n*(z*p1-p2)/(z*z-1.0);
         z1=z;
         z=z1-p1/pp;   // Newton’s method.
-      } while (abs(z-z1) > EPS);
+      } while (std::abs(z - z1) > EPS);
       x[i]=xm-xl*z;      // Scale the root to the desired interval,
       x[n-1-i]=xm+xl*z;  //  and put in its symmetric counterpart.
       w[i]=2.0*xl/((1.0-z*z)*pp*pp);  // Compute the weight
@@ -124,7 +133,7 @@ void GaussJacobi (VectorView<> x, VectorView<> w, const double alf, const double
     } else if (i == 1) { // Initial guess for the second largest root.
       r1=(4.1+alf)/((1.0+alf)*(1.0+0.156*alf));
       r2=1.0+0.06*(n-8.0)*(1.0+0.12*alf)/n;
-      r3=1.0+0.012*bet*(1.0+0.25*abs(alf))/n;
+      r3=1.0+0.012*bet*(1.0+0.25*std::abs(alf))/n;
       z -= (1.0-z)*r1*r2*r3;
     } else if (i == 2) { // Initial guess for the third largest root.
       r1=(1.67+0.28*alf)/(1.0+0.37*alf);
@@ -164,7 +173,7 @@ void GaussJacobi (VectorView<> x, VectorView<> w, const double alf, const double
       //  a standard relation involving also p2, the polynomial of one lower order.
       z1=z;
       z=z1-p1/pp; // Newton’s formula.
-      if (abs(z-z1) <= EPS) break;
+      if (std::abs(z - z1) <= EPS) break;
     }
     if (its > MAXIT) throw("too many iterations in gaujac");
     x[i]=z;    // Store the root and the weight.
@@ -195,7 +204,7 @@ auto ComputeABfromC (const Vector<> & c)
     tmp(i) = 1.0 / (i+1);
 
   Vector<> b = M * tmp;
-  Matrix a(s,s);
+  Matrix<> a(s, s);
 
   for (int j = 0; j < s; j++)
     {
@@ -228,4 +237,4 @@ void GaussRadau (VectorView<> x, VectorView<> w)
 }
 }
 
-#endif // IMPLICITRK_HPP
+#endif // RK_HPP

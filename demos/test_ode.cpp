@@ -14,7 +14,7 @@
 
 #include <nonlinfunc.hpp>
 #include <timestepper.hpp>
-#include <implicitRK.hpp>
+#include <RungeKutta.hpp>
 
 using namespace ASC_ode;
 
