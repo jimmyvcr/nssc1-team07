@@ -2,8 +2,12 @@
 #define RK_HPP
 
 #include <cmath>
+#include <fstream>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <tuple>
+#include <vector>
 
 #include <vector.hpp>
 #include <matrix.hpp>
@@ -15,8 +19,112 @@
 namespace ASC_ode {
   using namespace nanoblas;
 
+  inline std::tuple<Matrix<>, Vector<>, Vector<>> LoadExplicitTableau(const std::string& path)
+  {
+    std::ifstream input(path);
+    if (!input)
+      throw std::runtime_error("Cannot open tableau file '" + path + "'");
+
+    std::vector<std::string> tokens;
+    std::string line;
+    while (std::getline(input, line)) {
+      auto comment_pos = line.find('#');
+      if (comment_pos != std::string::npos)
+        line = line.substr(0, comment_pos);
+      std::istringstream iss(line);
+      std::string token;
+      while (iss >> token)
+        tokens.push_back(token);
+    }
+
+    if (tokens.empty())
+      throw std::invalid_argument("Tableau file '" + path + "' is empty");
+
+    size_t idx = 0;
+    auto require_token = [&](const std::string& what) -> std::string {
+      if (idx >= tokens.size())
+        throw std::invalid_argument("Unexpected end of '" + path + "' while reading " + what);
+      return tokens[idx++];
+    };
+
+    int stages = 0;
+    try {
+      stages = std::stoi(require_token("stage count"));
+    } catch (...) {
+      throw std::invalid_argument("Stage count in '" + path + "' must be an integer");
+    }
+
+    if (stages <= 0)
+      throw std::invalid_argument("Stage count in '" + path + "' must be positive");
+
+    auto parse_double = [&](const std::string& what) -> double {
+      std::string token = require_token(what);
+      try {
+        return std::stod(token);
+      } catch (...) {
+        throw std::invalid_argument("Value '" + token + "' in '" + path + "' is not a valid number (" + what + ")");
+      }
+    };
+
+    Matrix<> a(stages, stages);
+    constexpr double kLowerTol = 1e-12;
+    for (int row = 0; row < stages; ++row)
+      for (int col = 0; col < stages; ++col) {
+        double value = parse_double("a(" + std::to_string(row) + "," + std::to_string(col) + ")");
+        a(row, col) = value;
+        if (col >= row && std::abs(value) > kLowerTol)
+          throw std::invalid_argument("Explicit RK tableau requires strictly lower triangular A; entry a(" +
+            std::to_string(row) + "," + std::to_string(col) + ") violates this");
+      }
+
+    Vector<> b(stages), c(stages);
+    for (int i = 0; i < stages; ++i)
+      b(i) = parse_double("b(" + std::to_string(i) + ")");
+    for (int i = 0; i < stages; ++i)
+      c(i) = parse_double("c(" + std::to_string(i) + ")");
+
+    if (idx < tokens.size())
+      throw std::invalid_argument("Tableau file '" + path + "' has extra numeric entries beyond the expected layout");
+
+    return std::tuple{std::move(a), std::move(b), std::move(c)};
+  }
+
   class ExplicitRungeKutta : public TimeStepper
   {
+    Matrix<> m_a;
+    Vector<> m_b, m_c;
+    int m_stages;
+    int m_n;
+    Vector<> m_stage;
+    Vector<> m_k;
+  public:
+    ExplicitRungeKutta(std::shared_ptr<NonlinearFunction> rhs,
+                       const Matrix<> &a, const Vector<> &b, const Vector<> &c)
+        : TimeStepper(rhs), m_a(a), m_b(b), m_c(c),
+          m_stages(c.size()), m_n(rhs->dimX()),
+          m_stage(m_stages * m_n), m_k(m_stages * m_n) {}
+
+    void DoStep(double tau, VectorView<double> y) override
+    {
+      for (int j = 0; j < m_stages; j++)
+      {
+        auto stage_state = m_stage.range(j * m_n, (j + 1) * m_n);
+        stage_state = y;
+        for (int i = 0; i < j; i++)
+        {
+          auto prev_k = m_k.range(i * m_n, (i + 1) * m_n);
+          stage_state += tau * m_a(j, i) * prev_k;
+        }
+
+        auto curr_k = m_k.range(j * m_n, (j + 1) * m_n);
+        this->m_rhs->evaluate(stage_state, curr_k);
+      }
+
+      for (int j = 0; j < m_stages; j++)
+      {
+        y += tau * m_b(j) * m_k.range(j * m_n, (j + 1) * m_n);
+      }
+    }
   };
 
   class ImplicitRungeKutta : public TimeStepper

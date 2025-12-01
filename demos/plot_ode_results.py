@@ -6,6 +6,7 @@ import numpy as np
 
 
 STEPPER_NAMES = {
+    "exp_rk",
     "exp_euler",
     "impl_euler",
     "impr_euler",
@@ -14,6 +15,7 @@ STEPPER_NAMES = {
     "impl_rk_gauss_radau",
 }
 STEPPER_DIRS = {
+    "exp_rk": "ExplicitRK",
     "exp_euler": "ExplicitEuler",
     "impl_euler": "ImplicitEuler",
     "impr_euler": "ImprovedEuler",
@@ -28,6 +30,7 @@ SYSTEM_LABELS = {
 SYSTEM_PREFIXES = sorted(SYSTEM_LABELS.keys(), key=len, reverse=True)
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BUILD_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "build"))
+EXPLICIT_RK_PREFIX = "ExplicitRK"
 
 
 def usage():
@@ -37,6 +40,56 @@ def usage():
 
 def prettify_system(system):
     return SYSTEM_LABELS.get(system, system.replace("_", " ").title())
+
+
+def camel_to_snake(name):
+    result = []
+    prev = ""
+    for idx, ch in enumerate(name):
+        if ch.isalnum():
+            if ch.isupper():
+                need_sep = False
+                if idx > 0:
+                    if prev.islower() or prev.isdigit():
+                        need_sep = True
+                    elif prev.isupper() and idx + 1 < len(name):
+                        nxt = name[idx + 1]
+                        if nxt.islower():
+                            need_sep = True
+                if need_sep and result and result[-1] != "_":
+                    result.append("_")
+                result.append(ch.lower())
+            else:
+                result.append(ch.lower())
+        else:
+            if result and result[-1] != "_":
+                result.append("_")
+        prev = ch
+    snake = "".join(result).strip("_")
+    return snake if snake else "custom"
+
+
+def resolve_explicit_rk_dir(tableau_tag):
+    if not tableau_tag:
+        tableau_tag = "custom"
+    candidates = []
+    for entry in os.listdir(SCRIPT_DIR):
+        if not entry.startswith(EXPLICIT_RK_PREFIX):
+            continue
+        remainder = entry[len(EXPLICIT_RK_PREFIX):]
+        if remainder.startswith("_"):
+            remainder = remainder[1:]
+        candidate_tag = camel_to_snake(remainder)
+        candidates.append((candidate_tag, entry))
+        if candidate_tag == tableau_tag:
+            return entry
+    # fallback: synthesize CamelCase folder name from snake tokens
+    parts = [part for part in tableau_tag.split("_") if part]
+    camel = "".join(part.capitalize() for part in parts)
+    if not camel:
+        camel = "Custom"
+    synthesized = f"{EXPLICIT_RK_PREFIX}_{camel}"
+    return synthesized
 
 
 def parse_metadata(filepath):
@@ -75,15 +128,23 @@ def parse_metadata(filepath):
     n_factor = None
     has_nomod = False
     stage_count = None
+    tableau_tokens = []
+    non_tableau_tokens = []
     for token in tokens:
         if token == "nomod":
             has_nomod = True
+            non_tableau_tokens.append(token)
         elif token.startswith("s") and token[1:].isdigit():
             stage_count = token[1:]
+            non_tableau_tokens.append(token)
         elif token.endswith("tend"):
             tend_factor = token[:-4]
+            non_tableau_tokens.append(token)
         elif token.endswith("steps"):
             n_factor = token[:-5]
+            non_tableau_tokens.append(token)
+        else:
+            tableau_tokens.append(token)
 
     modifiers = "no modification"
     modifier_parts = []
@@ -97,9 +158,21 @@ def parse_metadata(filepath):
         modifiers = "no modification"
 
     pretty_stepper = stepper.replace("_", " ").title()
+    tableau_tag = "_".join(tableau_tokens)
+    if stepper == "exp_rk" and tableau_tag:
+        pretty_stepper += f" [{tableau_tag.replace('_', ' ')}]"
     if stage_count:
         pretty_stepper += f" (s={stage_count})"
     suffix_for_name = suffix if suffix else "nomod"
+
+    explicit_suffix_tokens = [tok for tok in non_tableau_tokens if tok]
+    if not explicit_suffix_tokens:
+        explicit_suffix_tokens = ["nomod"]
+    explicit_suffix = "_".join(explicit_suffix_tokens)
+
+    output_dir = STEPPER_DIRS.get(stepper, "plots")
+    if stepper == "exp_rk":
+        output_dir = resolve_explicit_rk_dir(tableau_tag)
 
     return {
         "system": system,
@@ -107,9 +180,11 @@ def parse_metadata(filepath):
         "stepper": stepper,
         "pretty_stepper": pretty_stepper,
         "modifiers": modifiers,
+        "tableau_tag": tableau_tag,
         "suffix": suffix,
         "suffix_for_name": suffix_for_name,
-        "output_dir": STEPPER_DIRS.get(stepper, "plots"),
+        "explicit_suffix": explicit_suffix,
+        "output_dir": output_dir,
     }
 
 
@@ -153,8 +228,6 @@ def main():
     position = data[:, 1]
     velocity = data[:, 2]
 
-    suffix_tag = meta["suffix_for_name"]
-
     time_fig, time_ax = plt.subplots()
     time_ax.plot(time, position, label="position")
     time_ax.plot(time, velocity, label="velocity")
@@ -166,9 +239,18 @@ def main():
     time_ax.legend()
     time_ax.grid(True)
 
-    time_output = os.path.join(
-        output_dir, f"{meta['system']}_time_evolution_{suffix_tag}.png"
-    )
+    if meta["stepper"] == "exp_rk":
+        suffix_tag = meta["explicit_suffix"]
+    else:
+        suffix_tag = meta["suffix_for_name"]
+
+    time_filename = f"{meta['system']}_time_evolution"
+    phase_filename = f"{meta['system']}_phase"
+    if suffix_tag:
+        time_filename += f"_{suffix_tag}"
+        phase_filename += f"_{suffix_tag}"
+
+    time_output = os.path.join(output_dir, f"{time_filename}.png")
     time_fig.savefig(time_output, bbox_inches="tight")
     plt.close(time_fig)
 
@@ -181,9 +263,7 @@ def main():
     )
     phase_ax.grid(True)
 
-    phase_output = os.path.join(
-        output_dir, f"{meta['system']}_phase_{suffix_tag}.png"
-    )
+    phase_output = os.path.join(output_dir, f"{phase_filename}.png")
     phase_fig.savefig(phase_output, bbox_inches="tight")
     plt.close(phase_fig)
 

@@ -1,11 +1,15 @@
+#include <cctype>
 #include <cerrno>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream> 
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
+#include <vector>
 #include <cmath>
 
 #ifndef M_PI
@@ -18,6 +22,92 @@
 
 using namespace ASC_ode;
 
+namespace {
+
+std::string CamelToSnake(std::string_view input)
+{
+  std::string result;
+  auto append_sep = [&]() {
+    if (!result.empty() && result.back() != '_')
+      result.push_back('_');
+  };
+
+  for (size_t i = 0; i < input.size(); ++i) {
+    char ch = static_cast<char>(input[i]);
+    unsigned char uch = static_cast<unsigned char>(ch);
+
+    if (std::isalnum(uch)) {
+      if (std::isupper(uch)) {
+        bool need_sep = false;
+        if (i > 0) {
+          unsigned char prev = static_cast<unsigned char>(input[i-1]);
+          if (std::islower(prev) || std::isdigit(prev))
+            need_sep = true;
+          else if (std::isupper(prev) && i + 1 < input.size()) {
+            unsigned char next = static_cast<unsigned char>(input[i+1]);
+            if (std::islower(next))
+              need_sep = true;
+          }
+        }
+        if (need_sep)
+          append_sep();
+        result.push_back(static_cast<char>(std::tolower(uch)));
+      } else {
+        result.push_back(static_cast<char>(std::tolower(uch)));
+      }
+    } else {
+      append_sep();
+    }
+  }
+
+  while (!result.empty() && result.back() == '_')
+    result.pop_back();
+
+  return result.empty() ? std::string("custom") : result;
+}
+
+std::filesystem::path ResolveTableauFolder(const std::string& user_value)
+{
+  namespace fs = std::filesystem;
+  fs::path folder = user_value;
+
+  auto try_candidates = [&](const std::vector<fs::path>& candidates) -> fs::path {
+    for (const auto& candidate : candidates)
+      if (!candidate.empty() && fs::exists(candidate))
+        return candidate;
+    return {};
+  };
+
+  if (!folder.has_parent_path()) {
+    auto resolved = try_candidates({folder, fs::path("demos") / folder, fs::path("..") / "demos" / folder});
+    if (!resolved.empty())
+      return resolved;
+  }
+
+  if (std::filesystem::exists(folder))
+    return folder;
+
+  throw std::invalid_argument("Tableau folder '" + user_value + "' not found");
+}
+
+std::string DeriveExplicitRKSuffix(const std::filesystem::path& folder_path)
+{
+  const std::string prefix = "ExplicitRK";
+  std::string name = folder_path.filename().string();
+  if (name.rfind(prefix, 0) != 0)
+    throw std::invalid_argument("Explicit RK folders must start with '" + prefix + "', got '" + name + "'");
+
+  std::string remainder = name.substr(prefix.size());
+  if (!remainder.empty() && remainder.front() == '_')
+    remainder.erase(remainder.begin());
+
+  if (remainder.empty())
+    return "custom";
+
+  return CamelToSnake(remainder);
+}
+
+}
 
 class MassSpring : public NonlinearFunction
 {
@@ -92,12 +182,13 @@ public:
 int main(int argc, char* argv[])
 {
   auto print_usage = [argv]() {
-    std::cerr << "Usage: " << argv[0] << " --stepper <name> [--rhs <system>] [--stages <int>] [--n-factor <double>] [--t-end-factor <double>]\n";
-    std::cerr << "  --stepper        exp_euler | impl_euler | impr_euler | crank_nicolson | impl_rk_gauss_legendre | impl_rk_gauss_radau\n";
+    std::cerr << "Usage: " << argv[0] << " --stepper <name> [--rhs <system>] [--stages <int>] [--n-factor <double>] [--t-end-factor <double>] [--tableau-folder <name>]\n";
+    std::cerr << "  --stepper        exp_euler | impl_euler | impr_euler | crank_nicolson | exp_rk | impl_rk_gauss_legendre | impl_rk_gauss_radau\n";
     std::cerr << "  --rhs            mass_spring | electric_network (default mass_spring)\n";
     std::cerr << "  --stages         required for impl_rk_gauss_legendre / impl_rk_gauss_radau (positive integer)\n";
     std::cerr << "  --n-factor       optional, scales default steps N=100 (default 1.0)\n";
     std::cerr << "  --t-end-factor   optional, scales default T_end = 4*pi (default 1.0)\n";
+    std::cerr << "  --tableau-folder required for exp_rk, folder containing tableau.txt (prefix ExplicitRK)\n";
     std::cerr << "Arguments accept either '--opt value' or '--opt=value' forms.\n";
   };
 
@@ -136,6 +227,7 @@ int main(int argc, char* argv[])
   bool n_overridden = false;
   bool t_overridden = false;
   std::string rhs_name = "mass_spring";
+  std::string tableau_folder;
 
   auto normalize_option = [](const std::string& opt) {
     if (opt.rfind("--", 0) == 0)
@@ -186,6 +278,9 @@ int main(int argc, char* argv[])
       else if (key == "t-end-factor") {
         tend_fact = parse_factor(value.c_str(), "T_end_factor");
         t_overridden = true;
+      }
+      else if (key == "tableau-folder") {
+        tableau_folder = value;
       }
       else {
         std::cerr << "Unknown option '--" << key << "'." << std::endl;
@@ -256,7 +351,26 @@ int main(int argc, char* argv[])
     stepper = std::make_unique<CrankNicolson>(rhs);
   }
   else if (stepper_name == "exp_rk") {
-    // TODO: script for ExplicitRungeKutta here
+    if (tableau_folder.empty()) {
+      std::cerr << "Explicit RK requires --tableau-folder <name>." << std::endl;
+      return 1;
+    }
+    try {
+      namespace fs = std::filesystem;
+      fs::path folder_path = ResolveTableauFolder(tableau_folder);
+      fs::path tableau_path = folder_path / "tableau.txt";
+      if (!fs::exists(tableau_path)) {
+        throw std::invalid_argument("Tableau file '" + tableau_path.string() + "' does not exist");
+      }
+
+      auto [a, b, c] = LoadExplicitTableau(tableau_path.string());
+      auto suffix = DeriveExplicitRKSuffix(folder_path);
+      stepper = std::make_unique<ExplicitRungeKutta>(rhs, a, b, c);
+      stepper_tag = stepper_name + "_" + suffix;
+    } catch (const std::exception& err) {
+      std::cerr << err.what() << std::endl;
+      return 1;
+    }
   }
   else if (stepper_name == "impl_rk_gauss_legendre") {
     if (!stages_overridden) {
