@@ -319,16 +319,16 @@ int main(int argc, char* argv[])
   }
   double tau = tend/steps;
 
-  Vector<> y = { 0, 0 };  // Initial state: Uc=0, t=0
+  Vector<> y;
   std::shared_ptr<NonlinearFunction> rhs;
   if (rhs_name == "mass_spring") {
     rhs = std::make_shared<MassSpring>(1.0, 1.0);
+    y = { 1.0, 0.0 };  // displacement=1, velocity=0
   }
   else if (rhs_name == "electric_network") {
-    // DONE: instantiate ElectricNetwork with proper parameters once implemented
     const double omega = 1.0;
-    // Using parameters R=1, C=1 from the exercise
     rhs = std::make_shared<ElectricNetwork>(1.0, 1.0, omega);
+    y = { 0.0, 0.0 };  // capacitor voltage and time start at 0
   }
   else {
     std::cerr << "Unknown RHS '" << rhs_name << "'." << std::endl;
