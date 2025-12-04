@@ -1,19 +1,23 @@
 # ASC-ODE
+
 A package for solving ordinary differential equations
 
 Read the [documentation](https://tuwien-asc.github.io/ASC-ODE/intro.html)
 
 Find theory behind here: https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html
 
-# The Group
+## The Group
+
 We are *team07*
 Members:
+
 * Anton Zamyatin e12223389@student.tuwien.ac.at
 * Martin Huber martin.huber@tuwien.ac.at
 * Jimmy-Daniel Vacareanu e11901909@student.tuwien.ac.at
 * Hannah Teis e12120508@student.tuwien.ac.at
 
-# The Task
+## The Task
+
 * Solve the exercises from the jupyterbook: [LINK](https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html)
     * Exercise 1: Jupyterbook Sections 14 - 17 
         * [Explicit and Improved Euler](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ee.html#exercise)
@@ -25,8 +29,10 @@ Members:
         * [Runge-Kutta methods](https://jschoeberl.github.io/IntroSC/ODEs/RungeKutta.html#exercises)
 * Push your homework into your git repository (this repository)
 
-# Running the Code
-## How to compile?
+## Running the Code
+
+### How to compile?
+
 `git clone git@github.com:jimmyvcr/nssc1-team07.git`
 
 Then you can use cmake to build ASC-ODE:
@@ -45,7 +51,7 @@ cd build
 ./test_ode --stepper exp_euler --rhs mass_spring
 ```
 
-## Command-line interface of `test_ode`
+### Command-line interface of `test_ode`
 
 `test_ode` now uses named options so different steppers and right-hand sides can be selected consistently:
 
@@ -64,7 +70,7 @@ Both `--opt value` and `--opt=value` syntaxes are supported. Example (3-stage Ga
 ./test_ode --rhs mass_spring --stepper impl_rk_gauss_legendre --stages 3 --n-factor 10 --t-end-factor 10
 ```
 
-## Plotting
+### Plotting
 First, navigate to the root directory and install all Python dependencies using `uv`:
 ```bash
 uv sync
@@ -76,38 +82,38 @@ uv run demos/plot_ode_results.py build/<system>_<stepper>_*.txt
 ```
 The plots will be saved to `demos/<Stepper>/<system>_phase_*.png` and `demos/<Stepper>/<system>_time_evolution_*.png`.
 
-# Exercise 1
-## Different time-steps and larger end-times
+## Exercise 1
+### Different time-steps and larger end-times
 Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.  
 
-### Base configuration
+#### Base configuration
 The first row corresponds to the given parameters for time-step and end-time.
 
 Calculation time: $t_{end} = 4*\pi = T$ \
 Number of steps: $n = 100 = N$ \
 Frequency: $\tau= \frac{t_{end}}{n} = \frac{T}{N}= \frac{4*\pi}{100}$
 
-### More time steps 
+#### More time steps 
 The second row displays results for 10-times smaller time steps.
 Calculation time: $t_{end} = T$ \
 Number of steps: $n = N*10$ \
 Frequency: $\tau= \frac{t_{end}}{n} = \frac{T}{N*10}$
 
-### Longer simulation
+#### Longer simulation
 The third row shows results for a 10-times bigger end-time.
 
 Calculation time: $t_{end} = T*10$ \
 Number of steps: $n = N$ \
 Frequency: $\tau= \frac{t_{end}}{n} = \frac{T*10}{N}$
 
-### Longer simulation with more time steps
+#### Longer simulation with more time steps
 The last row shows what a combined 10-times smaller time steps and 10-times bigger end-time results in. 
 
 Calculation time: $t_{end} = T*10$ \
 Number of steps: $n = N*10$ \
 Frequency: $\tau= \frac{t_{end}}{n} = \frac{T*10}{N*10}= \frac{T}{N}$
 
-## Explicit Euler
+### Explicit Euler
 When the time interval is divided into ten times more steps, the explicit Euler method produces more intermediate approximations with smaller local, numerical errors. This results in a solution that more closely matches the analytical sinusoid. This is also reflected in the plots, as the numerical solution is closer to a circle in the phase plot (reduced spiral artifacts), and a sinusiod over time (amplitude preservation).
 
 When the end-time is increased while keeping the number of steps constant, the step size becomes larger. This reduces the number of intermediate approximations and increases the local numerical error. Because explicit Euler propagates each step from the previous one, these errors accumulate over time, leading to a larger overall deviation from the exact solution. 
@@ -125,7 +131,7 @@ Increasing both the number of steps and the end-time by the same factor keeps th
 <img src="demos/ExplicitEuler/mass_spring_phase_plot_10*tend_10*steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ExplicitEuler/mass_spring_time_evolution_10*tend_10*steps.png" width="45%" style="display:inline-block;">
 
-## Improved Euler
+### Improved Euler
 
 In contrast to the Explicit Euler method, the improved Euler method is more stable with longer similuation time (as long as the number of steps is scaled accordingly).
 
@@ -138,7 +144,7 @@ In contrast to the Explicit Euler method, the improved Euler method is more stab
 <img src="demos/ImprovedEuler/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImprovedEuler/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
 
-## Implicit Euler
+### Implicit Euler
 With the implicit Euler method we observe similar to behavior and stability as the explicit Euler method with the sole difference that instability manifests itself as exponential dampening rather than exponential growth.
 
 <img src="demos/ImplicitEuler/mass_spring_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
@@ -150,7 +156,7 @@ With the implicit Euler method we observe similar to behavior and stability as t
 <img src="demos/ImplicitEuler/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitEuler/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
 
-## Crank-Nicolson
+### Crank-Nicolson
 Similar to the improved Euelr for the explicit Euler, the Crank-Nicolson method is a more stable version of the implicit Euler method.
 As seen in the plots, Crank-Nicolson has improved stability over the implicit Euler method as the similuation time is increased.
 Notably, it is even stabler then the improved Euler as the number of steps gets smaller, i.e. the step size get larger; the phase diagram is still circular, although with some artifact but does not spiral.
@@ -164,7 +170,7 @@ Notably, it is even stabler then the improved Euler as the number of steps gets 
 <img src="demos/CrankNicolson/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/CrankNicolson/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
 
-### Reproducing the datasets
+#### Reproducing the datasets
 All curves for Exercise&nbsp;1 were generated from the `build/` directory with the following commands (named CLI options are required now):
 
 ```bash
@@ -207,11 +213,57 @@ python demos/plot_ode_results.py mass_spring_exp_euler_10tend_10steps.txt
 
 Each invocation drops the corresponding `mass_spring_time_evolution_*.png` and `mass_spring_phase_*.png` files into the stepper-specific folder under `demos/`.
 
+## Exercise 2
+### Electric Network
+The system is described by a second-order ODE ($y_1'(t) = -\frac{1}{RC} y_1(t) + \frac{1}{RC} \cos(\omega t))$, converted into a 2D system where the state vector y = (position, velocity). For the electric circuit analogy, "position" represents the charge on the capacitor and "velocity" represents the current.
 
-# Exercise 2
-## Electric Network
+#### Comparison of Methods
+##### Explicit Euler (Unstable and Adds Energy)
+The Explicit Euler method is only conditionally stable and is unsuitable for purely oscillatory systems. Its stability region does not cover the imaginary axis, where the eigenvalues for this system lie.
 
-## Autodiff
+###### Standard Time Step: 
+The phase plot shows a clear outward spiral, and the time evolution plot reveals a slowly but steadily increasing amplitude. The method continuously adds artificial energy to the system, causing it to diverge from the true solution.
+
+###### Large Time Step (10 * tend): 
+The instability becomes more visible. The solution is immediately thrown into a high-energy state. The phase plot is jagged, and the time evolution is non-physical. This shows a complete breakdown of the method.
+
+<img src="demos/ExplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ExplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="demos/ExplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ExplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+
+##### Implicit Euler (Removes Energy)
+In direct contrast to its explicit counterpart, the Implicit Euler method is stable, but this stability comes at the cost of introducing significant numerical damping.
+
+###### Standard Time Step: 
+The phase plot shows an inward spiral, and the time evolution plot shows the amplitude slowly decaying. The method artificially removes energy from the system, which is incorrect for a conservative system.
+
+###### Large Time Step (10 * tend): 
+The damping effect is more visible. The amplitude is immediately and severely dampened, settling into a low-energy oscillation that is a fraction of the true solution's amplitude. While the method remains stable, it is inaccurate, as it has dissipated a significant portion of the system's energy.
+
+<img src="demos/ImplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="demos/ImplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/ImplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+
+##### Crank-Nicolson (Preserves Energy)
+The Crank-Nicolson method shows better stability and accuracy for oscillatory problems, correctly capturing the conservative nature of the system.
+
+###### Standard Time Step: 
+The phase plot shows a stable, closed loop, and the time evolution shows a constant amplitude. The method accurately preserves the system's energy.
+
+###### Large Time Step (10 * tend): 
+Even with a much larger time step, the method remains stable and energy preserving. The amplitude of the oscillation does not grow or decay. The trajectory becomes more angular due to the coarse time step, but it remains on a stable, closed path. This shows its suitability simulations of oscillatory systems.
+
+<img src="demos/CrankNicolson/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/CrankNicolson/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="demos/CrankNicolson/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="demos/CrankNicolson/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+
+### Autodiff
 To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class operators and functions were added:
 * Operators:
     * operator* (T a, const AutoDiff<N,T>& b): scalar multiplication
@@ -226,7 +278,7 @@ To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class 
     * Power $a^x$, $x^a$: pow (const AutoDiff<N, T> &a, T exp), pow (T a,const AutoDiff<N, T> &exp)
     * Squareroot $\sqrt{x}$ as a wrapper of pow function: sqr (const AutoDiff<N, T>& a)
 
-### Legendre polynomials
+#### Legendre polynomials
 `legendre_autodiff.cpp` evaluates Legendre polynomials up to order 5 over the interval `[-1, 1]` and writes the results to a CSV file with columns x, P0, dP0/dx, P1, dP1/dx, ..., P5, dP5/dx
 
 `plot_legendre.py` reads this CSV and generates plots of the polynomials and their derivatives. Both the CSV and the plots are saved in `demos/Legendre`.
@@ -246,7 +298,7 @@ The pendulum class is implemented in `nonlinfunc.hpp`.
 g++ -std=c++20 -I./src demos/legendre_autodiff.cpp -o demos/legendre_autodiff
 ```
 
-## Runge-Kutta (RK)
+### Runge-Kutta (RK)
 The order of the RK method depends on the polynomial exactness of the quadrature rule used.
 We compare to quadrature rules:
 1. Gauss–Radau
@@ -259,14 +311,14 @@ We compare to quadrature rules:
 - $s$ nodes $\to$ polynomial exactness up to degree $2s−1$
 - RK method order = 2s (optimal!)
 
-### Implicit 2-point Runge-Kutta
+#### Implicit 2-point Runge-Kutta
 The 2‑stage RK schemes extend the midpoint rule by adding a second quadrature node.
 Because Gauss–Legendre places both nodes strictly inside the interval, it achieves higher accuracy than Gauss–Radau, which fixes one node at the endpoint.
 The impact shows up most clearly for long simulations (third row):
 Gauss–Radau’s solution amplitude decays rapidly, while Gauss–Legendre preserves the oscillation almost perfectly.
 Both methods still exhibit a phase shift as the simulation lengthens.
 
-#### Gauss-Radau quadrature
+##### Gauss-Radau quadrature
 
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s2_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s2_nomod.png" width="45%" style="display:inline-block;">
@@ -277,7 +329,7 @@ Both methods still exhibit a phase shift as the simulation lengthens.
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s2_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s2_10tend_10steps.png" width="45%" style="display:inline-block;">
 
-#### Gauss-Legendre quadrature
+##### Gauss-Legendre quadrature
 
 <img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s2_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s2_nomod.png" width="45%" style="display:inline-block;">
@@ -289,11 +341,11 @@ Both methods still exhibit a phase shift as the simulation lengthens.
 <img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s2_10tend_10steps.png" width="45%" style="display:inline-block;">
 
 
-### Implicit 3-point Runge-Kutta
+#### Implicit 3-point Runge-Kutta
 Adding an extra quadrature point for a total of $s=3$ points notably improves accuracy of the RK method for both quadrature schemes.
 It effectively eliminates phase shift and reduces errors due to amplitude decay (although Gauss-Radau still experiences some decay).
 
-#### Gauss-Radau quadrature
+##### Gauss-Radau quadrature
 
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s3_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s3_nomod.png" width="45%" style="display:inline-block;">
@@ -304,7 +356,7 @@ It effectively eliminates phase shift and reduces errors due to amplitude decay 
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_phase_s3_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitRK_GaussRadau/mass_spring_time_evolution_s3_10tend_10steps.png" width="45%" style="display:inline-block;">
 
-#### Gauss-Legendre quadrature
+##### Gauss-Legendre quadrature
 
 <img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s3_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s3_nomod.png" width="45%" style="display:inline-block;">
@@ -315,7 +367,7 @@ It effectively eliminates phase shift and reduces errors due to amplitude decay 
 <img src="demos/ImplicitRK_GaussLegendre/mass_spring_phase_s3_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ImplicitRK_GaussLegendre/mass_spring_time_evolution_s3_10tend_10steps.png" width="45%" style="display:inline-block;">
 
-### Explicit Runge-Kutta
+#### Explicit Runge-Kutta
 Explicit RK steppers load their Butcher tableaux from folders that start with the prefix `ExplicitRK`. Each folder must contain a `tableau.txt` file. For instance, `demos/ExplicitRK_RK4Classic/tableau.txt` stores the standard RK4 tableau and can be reused for any run.
 
 **Running `test_ode`:**
@@ -342,7 +394,7 @@ uv run demos/plot_ode_results.py build/mass_spring_exp_rk_rk4classic_10tend_10st
 The plotting helper automatically writes the figures into `demos/ExplicitRK_RK4Classic/` and uses filenames of the form `mass_spring_time_evolution_<modifiers>.png` / `mass_spring_phase_<modifiers>.png`.
 Only the physical modifiers (e.g., `10steps`, `10tend`) remain in the filename; the RK tableau is implied by the folder.
 
-#### Classic $RK_4$
+##### Classic $RK_4$
 The classical fourth-order Runge–Kutta scheme exhibits phase drift and amplitude damping comparable to the 2-point Gauss–Radau method.
 Despite using four stages, it achieves only second-order accuracy because two of those stages coincide with the interval endpoints.
 

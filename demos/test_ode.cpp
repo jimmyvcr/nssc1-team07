@@ -319,22 +319,27 @@ int main(int argc, char* argv[])
   }
   double tau = tend/steps;
 
-  Vector<> y;
-  std::shared_ptr<NonlinearFunction> rhs;
-  if (rhs_name == "mass_spring") {
+// NEW, CORRECTED CODE
+std::shared_ptr<NonlinearFunction> rhs;
+Vector<> y(2); // Initialize the vector with a size of 2
+
+if (rhs_name == "mass_spring") {
     rhs = std::make_shared<MassSpring>(1.0, 1.0);
-    y = { 1.0, 0.0 };  // displacement=1, velocity=0
-  }
-  else if (rhs_name == "electric_network") {
+    y(0) = 1.0; // Set initial displacement
+    y(1) = 0.0; // Set initial velocity
+}
+else if (rhs_name == "electric_network") {
     const double omega = 1.0;
     rhs = std::make_shared<ElectricNetwork>(1.0, 1.0, omega);
-    y = { 0.0, 0.0 };  // capacitor voltage and time start at 0
-  }
-  else {
+    y(0) = 0.0; // Set initial capacitor voltage
+    y(1) = 0.0; // Set initial time
+}
+else {
     std::cerr << "Unknown RHS '" << rhs_name << "'." << std::endl;
     print_usage();
     return 1;
-  }
+}
+
 
   std::unique_ptr<TimeStepper> stepper;
   std::string stepper_tag = stepper_name;
@@ -470,9 +475,19 @@ int main(int argc, char* argv[])
   {
     stepper->DoStep(tau, y);
      //stepper.doStep(tau, y);
+    
+    /*if (rhs_name == "electric_network") {
+    // For the electric network, y = (Uc, t).
+    // The "velocity" is Uc', which is the first component of f(y).
+    Vector<> f_val(rhs->dimF());
+    rhs->evaluate(y, f_val);
+    outfile << (i + 1) * tau << " " << y(0) << " " << f_val(0) << std::endl;
+    } else {
+    // For mass-spring and other future systems, assume y = (pos, vel).
+    // The "velocity" is simply y(1).
+    outfile << (i + 1) * tau << " " << y(0) << " " << y(1) << std::endl;
+}*/
 
-     // std::cout << (i+1) * tau << "  " << y(0) << " " << y(1) << std::endl;
-     outfile << (i+1) * tau << "  " << y(0) << " " << y(1) << std::endl;
   }
 
   std::cout << "test_ode.cpp finished!" << std::endl;
