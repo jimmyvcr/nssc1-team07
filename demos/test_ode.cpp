@@ -420,6 +420,9 @@ int main(int argc, char* argv[])
     stepper = std::make_unique<ImplicitRungeKutta>(rhs, a, b, c);
     stepper_tag = stepper_name + "_s" + std::to_string(stages);
   }
+  // Gauss3c .. points tabulated, compute a,b:
+  //auto [Gauss3a,Gauss3b] = computeABfromC (Gauss3c);
+  //ImplicitRungeKutta stepper(rhs, Gauss3a, Gauss3b, Gauss3c);
 
   else {
     std::cerr << "Unknown stepper '" << stepper_name << "'." << std::endl;
@@ -445,6 +448,9 @@ int main(int argc, char* argv[])
   }
   namebuilder << ".txt";
   std::string outfilename = namebuilder.str();
+  //auto [a, b] = computeABfromC(c);
+  //ImplicitRungeKutta stepper(rhs, a, b, c);
+  
 
   std::ofstream outfile(outfilename);
   if (!outfile) {
@@ -453,6 +459,9 @@ int main(int argc, char* argv[])
   }
 
   std::cout << "Running simulation with tau = " << tau << ", outputting to " << outfilename << std::endl;
+  //auto [a, b] = computeABfromC(c);
+  //ImplicitRungeKutta stepper(rhs, a, b, c);
+  
 
   // std::cout << 0.0 << "  " << y(0) << " " << y(1) << std::endl;
   outfile << 0.0 << "  " << y(0) << " " << y(1) << std::endl;
@@ -460,6 +469,7 @@ int main(int argc, char* argv[])
   for (int i = 0; i < steps; i++)
   {
     stepper->DoStep(tau, y);
+     //stepper.doStep(tau, y);
 
      // std::cout << (i+1) * tau << "  " << y(0) << " " << y(1) << std::endl;
      outfile << (i+1) * tau << "  " << y(0) << " " << y(1) << std::endl;

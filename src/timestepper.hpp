@@ -16,6 +16,8 @@ class TimeStepper {
     virtual ~TimeStepper() = default;
     virtual void DoStep(double tau, VectorView<double> y) = 0;
 };
+    //virtual void doStep(double tau, VectorView<double> y) = 0;
+  //};
 
 class ExplicitEuler : public TimeStepper {
   Vector<> m_vecf;
@@ -23,6 +25,8 @@ class ExplicitEuler : public TimeStepper {
     ExplicitEuler(std::shared_ptr<NonlinearFunction> rhs)
     : TimeStepper(rhs), m_vecf(rhs->dimF()) {}
     void DoStep(double tau, VectorView<double> y) override {
+    //void doStep(double tau, VectorView<double> y) override
+    //{
       this->m_rhs->evaluate(y, m_vecf);
       y += tau * m_vecf;
     }
@@ -84,6 +88,13 @@ public:
   }
 };
 }  // namespace ASC_ode
+   /* void doStep(double tau, VectorView<double> y) override
+    {
+      m_yold->set(y);
+      m_tau->set(tau);
+      NewtonSolver(m_equ, y);
+    }
+  };*/
 
 
 #endif  // NSSC1_TEAM07_SRC_TIMESTEPPER_HPP_
