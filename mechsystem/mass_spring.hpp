@@ -51,12 +51,20 @@ public:
   std::array<Connector,2> connectors;
 };
 
+class DistanceConstraint
+{
+public:
+    std::array<Connector,2> connectors;
+    double length;
+};
+
 template <int D>
 class MassSpringSystem
 {
   std::vector<Fix<D>> m_fixes;
   std::vector<Mass<D>> m_masses;
   std::vector<Spring> m_springs;
+  std::vector<DistanceConstraint> m_constraints;
   Vec<D> m_gravity=0.0;
 public:
   void setGravity (Vec<D> gravity) { m_gravity = gravity; }
@@ -80,9 +88,15 @@ public:
     return m_springs.size()-1;
   }
 
+  size_t addConstraint(DistanceConstraint c) {
+    m_constraints.push_back(c);
+    return m_constraints.size()-1;
+}
+
   auto & fixes() { return m_fixes; } 
   auto & masses() { return m_masses; } 
   auto & springs() { return m_springs; }
+  auto & constraints() { return m_constraints; }
 
   void getState (VectorView<> values, VectorView<> dvalues, VectorView<> ddvalues)
   {
@@ -140,17 +154,21 @@ public:
   MSS_Function (MassSpringSystem<D> & _mss)
     : mss(_mss) { }
 
-  virtual size_t dimX() const override { return D*mss.masses().size(); }
-  virtual size_t dimF() const override{ return D*mss.masses().size(); }
+  virtual size_t dimX() const override { return D*mss.masses().size() + mss.constraints().size(); }
+  virtual size_t dimF() const override{ return D*mss.masses().size() + mss.constraints().size(); }
 
-  virtual void evaluate (VectorView<double> x, VectorView<double> f) const override
-  {
+  virtual void evaluate(VectorView<double> x, VectorView<double> f) const override
+    {
     f = 0.0;
 
-    auto xmat = x.asMatrix(mss.masses().size(), D);
-    auto fmat = f.asMatrix(mss.masses().size(), D);
+    size_t numMasses = mss.masses().size();
+    size_t numConstraints = mss.constraints().size();
 
-    for (size_t i = 0; i < mss.masses().size(); i++)
+    auto xmat = x.range(0, D*numMasses).asMatrix(numMasses, D);
+    auto fmat = f.range(0, D*numMasses).asMatrix(numMasses, D);
+
+
+    for (size_t i = 0; i < numMasses; i++)
       fmat.row(i) = mss.masses()[i].mass*mss.getGravity();
 
     for (auto spring : mss.springs())
@@ -174,26 +192,129 @@ public:
           fmat.row(c2.nr) -= force*dir12;
       }
 
-    for (size_t i = 0; i < mss.masses().size(); i++)
+    for (size_t i = 0; i < numMasses; i++)
       fmat.row(i) *= 1.0/mss.masses()[i].mass;
+
+    for (size_t i=0; i < numConstraints; i++)
+    {
+        double lambda = x(D*numMasses + i);
+        auto & con = mss.constraints()[i];
+        auto [c1, c2] = con.connectors;
+
+        Vec<D> p1, p2;
+        if (c1.type == Connector::FIX) p1 = mss.fixes()[c1.nr].pos;
+        else                          p1 = xmat.row(c1.nr);
+        if (c2.type == Connector::FIX) p2 = mss.fixes()[c2.nr].pos;
+        else                          p2 = xmat.row(c2.nr);
+
+        Vec<D> diff = p1 - p2;
+        if (c1.type == Connector::MASS)
+            fmat.row(c1.nr) += (2*lambda)*diff;
+        if (c2.type == Connector::MASS)
+            fmat.row(c2.nr) -= (2*lambda)*diff;
+    }
+
+    for (size_t i=0; i < numConstraints; i++)
+    {
+        auto & con = mss.constraints()[i];
+        auto [c1, c2] = con.connectors;
+
+        Vec<D> p1, p2;
+        if (c1.type == Connector::FIX) p1 = mss.fixes()[c1.nr].pos;
+        else                          p1 = xmat.row(c1.nr);
+        if (c2.type == Connector::FIX) p2 = mss.fixes()[c2.nr].pos;
+        else                          p2 = xmat.row(c2.nr);
+
+        f(D*numMasses + i) = dot(p1-p2, p1-p2) - con.length*con.length;
+    }
   }
+
   
-  virtual void evaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
+
+  virtual void evaluateDeriv(VectorView<double> x, MatrixView<double> df) const override
   {
-    // TODO: exact differentiation
-    double eps = 1e-8;
-    Vector<> xl(dimX()), xr(dimX()), fl(dimF()), fr(dimF());
-    for (size_t i = 0; i < dimX(); i++)
+      size_t numMasses = mss.masses().size();
+      size_t numConstraints = mss.constraints().size();
+      const size_t n = D * numMasses + numConstraints;
+
+      for (size_t i = 0; i < df.rows(); i++)
+          for (size_t j = 0; j < df.cols(); j++)
+              df(i,j) = 0.0;
+
+      auto xmat = x.range(0, D*numMasses).asMatrix(numMasses, D);
+
+      for (auto spring : mss.springs())
       {
-        xl = x;
-        xl(i) -= eps;
-        xr = x;
-        xr(i) += eps;
-        evaluate (xl, fl);
-        evaluate (xr, fr);
-        df.col(i) = 1/(2*eps) * (fr-fl);
+          auto [c1,c2] = spring.connectors;
+
+          Vec<D> p1 = (c1.type==Connector::FIX) ? mss.fixes()[c1.nr].pos : xmat.row(c1.nr);
+          Vec<D> p2 = (c2.type==Connector::FIX) ? mss.fixes()[c2.nr].pos : xmat.row(c2.nr);
+
+          Vec<D> diff = p1 - p2;
+          double L = norm(diff);
+          if (L == 0.0) continue;
+          Vec<D> dir = diff;
+          dir *= (1.0 / L);
+
+          // Spring stiffness matrix (outer product)
+          for (int a = 0; a < D; a++)
+              for (int b = 0; b < D; b++)
+              {
+                  double val = spring.stiffness * ((a==b ? 1.0 : 0.0) - dir(a)*dir(b));
+                  if (c1.type == Connector::MASS && c2.type == Connector::MASS)
+                  {
+                      df(D*c1.nr + a, D*c1.nr + b) += val;
+                      df(D*c1.nr + a, D*c2.nr + b) -= val;
+                      df(D*c2.nr + a, D*c1.nr + b) -= val;
+                      df(D*c2.nr + a, D*c2.nr + b) += val;
+                  }
+                  else if (c1.type == Connector::MASS && c2.type == Connector::FIX)
+                      df(D*c1.nr + a, D*c1.nr + b) += val;
+                  else if (c1.type == Connector::FIX && c2.type == Connector::MASS)
+                      df(D*c2.nr + a, D*c2.nr + b) += val;
+              }
+      }
+
+      // Constraints contributions
+      for (size_t i = 0; i < numConstraints; i++)
+      {
+          auto &con = mss.constraints()[i];
+          auto [c1, c2] = con.connectors;
+
+          Vec<D> p1 = (c1.type==Connector::FIX) ? mss.fixes()[c1.nr].pos : xmat.row(c1.nr);
+          Vec<D> p2 = (c2.type==Connector::FIX) ? mss.fixes()[c2.nr].pos : xmat.row(c2.nr);
+
+          Vec<D> diff = p1 - p2;
+
+          for (int a = 0; a < D; a++)
+          {
+              if (c1.type == Connector::MASS)
+              {
+                  df(D*c1.nr + a, D*numMasses + i) += 2.0 * diff(a); // derivative wrt lambda
+                  df(D*numMasses + i, D*c1.nr + a) += 2.0 * diff(a); // derivative wrt position
+              }
+              if (c2.type == Connector::MASS)
+              {
+                  df(D*c2.nr + a, D*numMasses + i) -= 2.0 * diff(a);
+                  df(D*numMasses + i, D*c2.nr + a) -= 2.0 * diff(a);
+              }
+          }
+
+          // Derivative of constraint w.r.t lambda is zero (already handled in force positions)
+      }
+
+      // Divide forces by mass for acceleration part
+      for (size_t i = 0; i < numMasses; i++)
+      {
+          double m = mss.masses()[i].mass;
+          for (size_t a = 0; a < D; a++)
+          {
+              for (size_t j = 0; j < D*numMasses + numConstraints; j++)
+                  df(D*i + a, j) /= m;
+          }
       }
   }
+
   
 };
 
