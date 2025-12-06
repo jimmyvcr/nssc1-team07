@@ -254,7 +254,8 @@ public:
           double L = norm(diff);
           if (L == 0.0) continue;
           Vec<D> dir = diff;
-          dir *= (1.0 / L);
+          for (size_t k = 0; k < D; k++)
+            dir(k) /= L;
 
           // Spring stiffness matrix (outer product)
           for (int a = 0; a < D; a++)
