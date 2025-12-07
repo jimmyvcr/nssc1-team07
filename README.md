@@ -27,6 +27,9 @@ Members:
         * [Automatic Differentiation part1](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercises)
         * [Automatic Differentiation part2](https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercise-test-the-autodiff-class-for-the-pendulum)
         * [Runge-Kutta methods](https://jschoeberl.github.io/IntroSC/ODEs/RungeKutta.html#exercises)
+    * Exercise 3: Jupyter book Section 20
+        * The Exercise can be found [HERE](https://jschoeberl.github.io/IntroSC/ODEs/mechanical.html)
+        * [Mass-spring System with Newmark branch](https://jschoeberl.github.io/IntroSC/ODEs/mechanical.html#mass-spring-system)
 * Push your homework into your git repository (this repository)
 
 ## Running the Code
@@ -406,3 +409,20 @@ Despite using four stages, it achieves only second-order accuracy because two of
 <img src="demos/ExplicitRK_RK4Classic/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
 <img src="demos/ExplicitRK_RK4Classic/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="demos/ExplicitRK_RK4Classic/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
+
+## Exercise 3
+### Examples for mass_sping
+
+### Add Distance Constrains
+
+### Implement exact derivative for MSS_Function
+
+### Experiment with Mechanical Structures
+
+#### The Double-Pendulum on a chain
+
+#### Complex Beam structures
+
+#### Double Pendulum with springs
+
+#### Build a spinning top
