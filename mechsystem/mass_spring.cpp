@@ -4,7 +4,7 @@
 int main() {
   MassSpringSystem<2> mss;
   mss.setGravity({0, -9.81});
-  auto fA = mss.addFix({{0.0, 0.0 }};
+  auto fA = mss.addFix({{0.0, 0.0 }});
   auto mA = mss.addMass({1, {1.0, 0.0}});
   mss.addSpring({1, 10, {fA, mA}});
 
