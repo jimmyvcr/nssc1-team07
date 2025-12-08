@@ -145,6 +145,10 @@ std::ostream &operator<<(std::ostream &ost, MassSpringSystem<D> &mss)
   for (auto sp : mss.springs())
     ost << "length = " << sp.length << ", stiffness = " << sp.stiffness
         << ", C1 = " << sp.connectors[0] << ", C2 = " << sp.connectors[1] << std::endl;
+
+  ost << "constraints: " << std::endl;
+  for (auto c : mss.constraints())
+    ost << "length = " << c.length << ", C1 = " << c.connectors[0] << ", C2 = " << c.connectors[1] << std::endl;
   return ost;
 }
 
@@ -218,22 +222,6 @@ public:
         fmat.row(c1.nr) += (2 * lambda) * diff;
       if (c2.type == Connector::MASS)
         fmat.row(c2.nr) -= (2 * lambda) * diff;
-    }
-
-    for (size_t i = 0; i < numConstraints; i++)
-    {
-      auto &con = mss.constraints()[i];
-      auto [c1, c2] = con.connectors;
-
-      Vec<D> p1, p2;
-      if (c1.type == Connector::FIX)
-        p1 = mss.fixes()[c1.nr].pos;
-      else
-        p1 = xmat.row(c1.nr);
-      if (c2.type == Connector::FIX)
-        p2 = mss.fixes()[c2.nr].pos;
-      else
-        p2 = xmat.row(c2.nr);
 
       f(D * numMasses + i) = dot(p1 - p2, p1 - p2) - con.length * con.length;
     }
