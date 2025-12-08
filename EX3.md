@@ -43,9 +43,17 @@ To enforce constraints if they are added
 
 ## Experiment with Mechanical Structures
 
+### Double-Pendulum
+
+The Jupyter Notebook implentation for a Double-Pendulum can be found [HERE](mechsystem/mass_spring.ipynb).
+
 ### The Double-Pendulum on a chain
 
+The Jupyter Notebook implentation for a Double-Pendulum with a chain can be found [HERE](mechsystem/mass_spring_chain.ipynb).
+
 ### Complex Beam structures
+
+The Jupyter Notebook implentation for a more complex structure in the shape of a crane can be found [HERE](mechsystem/crane.ipynb).
 
 ### Double Pendulum with springs
 
