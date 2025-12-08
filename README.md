@@ -100,4 +100,4 @@ You can find the implementation of Exercise 2 [HERE](EX2.md)
 
 ## Exercise 3
 
-You can find the implementation of Exercise 23 [HERE](EX3.md)
+You can find the implementation of Exercise 3 [HERE](EX3.md)
