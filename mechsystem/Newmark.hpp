@@ -85,9 +85,9 @@
     double t = 0;
     a = ddx;
 
-    for (int i = 0; i < steps; i++)
+      for (int i = 0; i < steps; i++)
       {
-        NewtonSolver (equ, a);
+        NewtonSolver (equ, a, 1e-8, 50);
         xnew -> evaluate (a, x);
         vnew -> evaluate (a, v);
 

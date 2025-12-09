@@ -57,6 +57,8 @@ class DistanceConstraint
 public:
   std::array<Connector, 2> connectors;
   double length;
+  DistanceConstraint(double len, std::array<Connector, 2> conns)
+        : length(len), connectors(conns) {}
 };
 
 template <int D>
