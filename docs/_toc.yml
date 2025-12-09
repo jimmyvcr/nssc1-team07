@@ -4,9 +4,6 @@
 format: jb-book
 root: intro
 parts:
-  - caption: Project Info
-    chapters:
-    - file: README
   - caption: Exercises
     chapters:
     - file: EX1
