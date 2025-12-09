@@ -47,6 +47,15 @@ For each constraint
 
 ## Experiment with Mechanical Structures
 
+_Note: The following experiments are implemented as interactive Jupyter Notebooks using `pythreejs` for 3D visualization. To view the simulations, please run the notebooks locally._
+
+**Notebooks overview (located in `mechsystem/`):**
+* `mass_spring.ipynb`: Standard Mass-Spring and Double Pendulum (springs)
+* `double_pendulum.ipynb`: Double Pendulum with distance constraints
+* `mass_spring_chain.ipynb`: Chain simulation
+* `crane.ipynb`: Complex crane structure
+* `spinning_top.ipynb`: Spinning Top simulation
+
 ### Double Pendulum with springs
 
 The Jupyter Notebook implementation for a regular Double-Pendulum using springs can be found [HERE](mechsystem/mass_spring.ipynb).
