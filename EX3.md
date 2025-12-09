@@ -15,8 +15,6 @@ MassSpringSystem class
   - `addConstraint(DistanceConstraint c)`: extend m_constraints vector with c and returns index of added element
   - constraints printed as part of obj
 
-## Implement exact derivative for MSS_Function
-
 `MSS_Function`
 To enforce constraints if they are added
 
@@ -25,7 +23,7 @@ To enforce constraints if they are added
 
 `evaluate(VectorView<double> x, VectorView<double> f)`: evaluates physical right hand side of mass-spring system by computing gravity + spring forces (acceleration) for every mass with given x (current mass position) and f (pre-allocated memory for force) --> $f(x)=a(x)$
 
-### For each constraint
+For each constraint
 
 - get Lagrange multiplier $\lambda$ from unknown vector
 - retrieve constraint and its connectors
@@ -40,6 +38,12 @@ To enforce constraints if they are added
   $$ \nabla_\lambda L(x, \lambda) = \nabla_\lambda (-U(x) +  \lambda g(x)) = g(x)$$
   - add constraint residual to force at position corresponding to Lagrange multipliers
   - Solver adjusts $\lambda$ so that these residuals go to zero
+
+## Exact Derivative 
+- Calculate spring force Jacobian: stiffness
+- Calculate constraint Jacobian
+- Weight with mass
+
 
 ## Experiment with Mechanical Structures
 
