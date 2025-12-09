@@ -19,10 +19,10 @@ The phase plot shows a clear outward spiral, and the time evolution plot reveals
 The instability becomes more visible. The solution is immediately thrown into a high-energy state. The phase plot is jagged, and the time evolution is non-physical. This shows a complete breakdown of the method.
 
 <img src="demos/ExplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ExplicitEuler/electric_network_time_evolution_10tend.png?v=1" width="45%" style="display:inline-block;">
 <br>
 <img src="demos/ExplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ExplicitEuler/electric_network_phase_10tend.png?v=1" width="45%" style="display:inline-block;">
 
 #### Implicit Euler (Removes Energy)
 
@@ -37,10 +37,10 @@ The phase plot shows an inward spiral, and the time evolution plot shows the amp
 The damping effect is more visible. The amplitude is immediately and severely dampened, settling into a low-energy oscillation that is a fraction of the true solution's amplitude. While the method remains stable, it is inaccurate, as it has dissipated a significant portion of the system's energy.
 
 <img src="demos/ImplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitEuler/electric_network_time_evolution_10tend.png?v=1" width="45%" style="display:inline-block;">
 <br>
 <img src="demos/ImplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/ImplicitEuler/electric_network_phase_10tend.png?v=1" width="45%" style="display:inline-block;">
 
 #### Crank-Nicolson (Preserves Energy)
 
@@ -55,10 +55,10 @@ The phase plot shows a stable, closed loop, and the time evolution shows a const
 Even with a much larger time step, the method remains stable and energy preserving. The amplitude of the oscillation does not grow or decay. The trajectory becomes more angular due to the coarse time step, but it remains on a stable, closed path. This shows its suitability simulations of oscillatory systems.
 
 <img src="demos/CrankNicolson/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/CrankNicolson/electric_network_time_evolution_10tend.png?v=1" width="45%" style="display:inline-block;">
 <br>
 <img src="demos/CrankNicolson/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+<img src="demos/CrankNicolson/electric_network_phase_10tend.png?v=1" width="45%" style="display:inline-block;">
 
 ## Autodiff
 

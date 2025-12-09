@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ASC-ODE &#8212; ASC-ODE</title>
+    <title>Welcome to ASC-ODE’s documentation! &#8212; ASC-ODE</title>
   
   
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Exercise 1" href="EX1.html" />
+    <link rel="next" title="ASC-ODE" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,11 +178,15 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    ASC-ODE
+                    Welcome to ASC-ODE’s documentation!
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="README.html">ASC-ODE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="EX1.html">Exercise 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="EX2.html">Exercise 2</a></li>
@@ -340,7 +344,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>ASC-ODE</h1>
+    <h1>Welcome to ASC-ODE’s documentation!</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -350,17 +354,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-group">The Group</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-task">The Task</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-code">Running the Code</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compile">How to compile?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-interface-of-test-ode">Command-line interface of <code class="docutils literal notranslate"><span class="pre">test_ode</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">Plotting</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-time-stepping-methods-are">Available time-stepping methods are</a></li>
 </ul>
             </nav>
         </div>
@@ -372,113 +367,60 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="asc-ode">
-<h1>ASC-ODE<a class="headerlink" href="#asc-ode" title="Link to this heading">#</a></h1>
-<p>A package for solving ordinary differential equations</p>
-<p>Read the <a class="reference external" href="https://tuwien-asc.github.io/ASC-ODE/intro.html">documentation</a></p>
-<p>Find theory behind here: <a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html">https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html</a></p>
-<section id="the-group">
-<h2>The Group<a class="headerlink" href="#the-group" title="Link to this heading">#</a></h2>
-<p>We are <em>team07</em>
-Members:</p>
-<ul class="simple">
-<li><p>Anton Zamyatin <a class="reference external" href="mailto:e12223389&#37;&#52;&#48;student&#46;tuwien&#46;ac&#46;at">e12223389<span>&#64;</span>student<span>&#46;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
-<li><p>Martin Huber <a class="reference external" href="mailto:martin&#46;huber&#37;&#52;&#48;tuwien&#46;ac&#46;at">martin<span>&#46;</span>huber<span>&#64;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
-<li><p>Jimmy-Daniel Vacareanu <a class="reference external" href="mailto:e11901909&#37;&#52;&#48;student&#46;tuwien&#46;ac&#46;at">e11901909<span>&#64;</span>student<span>&#46;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
-<li><p>Hannah Teis <a class="reference external" href="mailto:e12120508&#37;&#52;&#48;student&#46;tuwien&#46;ac&#46;at">e12120508<span>&#64;</span>student<span>&#46;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
-</ul>
-</section>
-<section id="the-task">
-<h2>The Task<a class="headerlink" href="#the-task" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Solve the exercises from the jupyterbook: <a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html">LINK</a></p>
-<ul>
-<li><p>Exercise 1: Jupyterbook Sections 14 - 17</p>
-<ul>
-<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ee.html#exercise">Explicit and Improved Euler</a></p></li>
-<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#excercises">Implicit Euler and Crank-Nicolson</a> (first 3 tasks)</p></li>
-</ul>
-</li>
-<li><p>Exercise 2: Jupyterbook Sections 17 - 19</p>
-<ul>
-<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#excercises">Model electric network with ODE</a> (last task)</p></li>
-<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercises">Automatic Differentiation part1</a></p></li>
-<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercise-test-the-autodiff-class-for-the-pendulum">Automatic Differentiation part2</a></p></li>
-<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/RungeKutta.html#exercises">Runge-Kutta methods</a></p></li>
-</ul>
-</li>
-<li><p>Exercise 3: Jupyter book Section 20</p>
-<ul>
-<li><p>The Exercise can be found <a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/mechanical.html">HERE</a></p></li>
-<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/mechanical.html#mass-spring-system">Mass-spring System with Newmark branch</a></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Push your homework into your git repository (this repository)</p></li>
-</ul>
-</section>
-<section id="running-the-code">
-<h2>Running the Code<a class="headerlink" href="#running-the-code" title="Link to this heading">#</a></h2>
-<section id="how-to-compile">
-<h3>How to compile?<a class="headerlink" href="#how-to-compile" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:jimmyvcr/nssc1-team07.git</span></code></p>
-<p>Then you can use cmake to build ASC-ODE:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
-<span class="n">cd</span> <span class="n">build</span>
-<span class="n">cmake</span> <span class="o">..</span>
-<span class="n">make</span>
+  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-asc-ode-s-documentation">
+<h1>Welcome to ASC-ODE’s documentation!<a class="headerlink" href="#welcome-to-asc-ode-s-documentation" title="Link to this heading">#</a></h1>
+<p>ASC-ODE is is a C++ library for solving ordinary differential equations (ODEs).
+The equation is defined by the right hand side function.
+ASC-ODE provides various time-steppers which may be used for odes with right hand sides
+given by a function object.</p>
+<p>A small demo for solving a mass-spring model as first order ODE</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{eqnarray*}
+y_0^\prime &amp; = &amp; y_1 \\
+y_1^\prime &amp; = &amp; -\frac{k}{m} y_0
+\end{eqnarray*}\]</div>
+<p>is here:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">double</span><span class="w"> </span><span class="n">tend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">M_PI</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tend</span><span class="o">/</span><span class="n">steps</span><span class="p">;</span>
+
+<span class="n">Vector</span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span><span class="w">  </span><span class="c1">// initial conditions</span>
+<span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">NonlinearFunction</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rhs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">MassSpring</span><span class="o">&gt;</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span><span class="w"> </span><span class="n">stiffness</span><span class="p">);</span>
+<span class="w">  </span>
+<span class="n">ExplicitEuler</span><span class="w"> </span><span class="nf">stepper</span><span class="p">(</span><span class="n">rhs</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">steps</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">     </span><span class="n">stepper</span><span class="p">.</span><span class="n">DoStep</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+<span class="w">     </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
 </pre></div>
 </div>
-<p>To run the main demo with default settings (mass-spring system, explicit Euler), execute</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">build</span>
-<span class="o">./</span><span class="n">test_ode</span> <span class="o">--</span><span class="n">stepper</span> <span class="n">exp_euler</span> <span class="o">--</span><span class="n">rhs</span> <span class="n">mass_spring</span>
+<p>The result of this simulation in phase space is shown here:</p>
+<a class="reference internal image-reference" href="_images/massspring_phase.png"><img alt="_images/massspring_phase.png" class="align-center" src="_images/massspring_phase.png" style="width: 40%;" />
+</a>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>install XXX-odesolver it via git-clone:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/my-github-clone/my-ode-solver.git
+</pre></div>
+</div>
+<p>To configure and build some tests do</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cd my-ode-solver
+mkdir build
+cd build
+cmake ..
+make
 </pre></div>
 </div>
 </section>
-<section id="command-line-interface-of-test-ode">
-<h3>Command-line interface of <code class="docutils literal notranslate"><span class="pre">test_ode</span></code><a class="headerlink" href="#command-line-interface-of-test-ode" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">test_ode</span></code> now uses named options so different steppers and right-hand sides can be selected consistently:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">test_ode</span> <span class="o">--</span><span class="n">stepper</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">rhs</span> <span class="o">&lt;</span><span class="n">mass_spring</span><span class="o">|</span><span class="n">electric_network</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">stages</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">n</span><span class="o">-</span><span class="n">factor</span> <span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">t</span><span class="o">-</span><span class="n">end</span><span class="o">-</span><span class="n">factor</span> <span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span><span class="p">]</span>
-</pre></div>
+<section id="available-time-stepping-methods-are">
+<h2>Available time-stepping methods are<a class="headerlink" href="#available-time-stepping-methods-are" title="Link to this heading">#</a></h2>
+<p>…</p>
+</section>
+<div class="toctree-wrapper compound">
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">--stepper</span></code> (required): <code class="docutils literal notranslate"><span class="pre">exp_euler</span></code>, <code class="docutils literal notranslate"><span class="pre">impl_euler</span></code>, <code class="docutils literal notranslate"><span class="pre">impr_euler</span></code>, <code class="docutils literal notranslate"><span class="pre">crank_nicolson</span></code>, <code class="docutils literal notranslate"><span class="pre">impl_rk_gauss_legendre</span></code>, <code class="docutils literal notranslate"><span class="pre">impl_rk_gauss_radau</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--rhs</span></code> (default <code class="docutils literal notranslate"><span class="pre">mass_spring</span></code>): switches the modeled system.
-<code class="docutils literal notranslate"><span class="pre">electric_network</span></code> is reserved for the upcoming circuit model.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--stages</span></code>: required only for the Gauss–Legendre/Gauss–Radau implicit RK steppers; specifies the number of stages.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--n-factor</span></code>, <code class="docutils literal notranslate"><span class="pre">--t-end-factor</span></code>: scale the baseline number of steps (<code class="docutils literal notranslate"><span class="pre">N=100</span></code>) and simulation horizon (<code class="docutils literal notranslate"><span class="pre">T_end=4π</span></code>).</p></li>
-</ul>
-<p>Both <code class="docutils literal notranslate"><span class="pre">--opt</span> <span class="pre">value</span></code> and <code class="docutils literal notranslate"><span class="pre">--opt=value</span></code> syntaxes are supported. Example (3-stage Gauss–Legendre with increased resolution and end-time):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">test_ode</span> <span class="o">--</span><span class="n">rhs</span> <span class="n">mass_spring</span> <span class="o">--</span><span class="n">stepper</span> <span class="n">impl_rk_gauss_legendre</span> <span class="o">--</span><span class="n">stages</span> <span class="mi">3</span> <span class="o">--</span><span class="n">n</span><span class="o">-</span><span class="n">factor</span> <span class="mi">10</span> <span class="o">--</span><span class="n">t</span><span class="o">-</span><span class="n">end</span><span class="o">-</span><span class="n">factor</span> <span class="mi">10</span>
-</pre></div>
-</div>
-</section>
-<section id="plotting">
-<h3>Plotting<a class="headerlink" href="#plotting" title="Link to this heading">#</a></h3>
-<p>First, navigate to the root directory and install all Python dependencies using <code class="docutils literal notranslate"><span class="pre">uv</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>sync
-</pre></div>
-</div>
-<p>After running the <code class="docutils literal notranslate"><span class="pre">test_ode</span></code> programm as described above, you can plot the results saved to <code class="docutils literal notranslate"><span class="pre">build/&lt;system&gt;_&lt;stepper&gt;_*.txt</span></code> by calling:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>build/&lt;system&gt;_&lt;stepper&gt;_*.txt
-</pre></div>
-</div>
-<p>The plots will be saved to <code class="docutils literal notranslate"><span class="pre">demos/&lt;Stepper&gt;/&lt;system&gt;_phase_*.png</span></code> and <code class="docutils literal notranslate"><span class="pre">demos/&lt;Stepper&gt;/&lt;system&gt;_time_evolution_*.png</span></code>.</p>
-</section>
-</section>
-<section id="exercise-1">
-<h2>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h2>
-<p>You can find the implementation of Exercise 1 <a class="reference internal" href="EX1.html"><span class="std std-doc">HERE</span></a></p>
-</section>
-<section id="exercise-2">
-<h2>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h2>
-<p>You can find the implementation of Exercise 2 <a class="reference internal" href="EX2.html"><span class="std std-doc">HERE</span></a></p>
-</section>
-<section id="exercise-3">
-<h2>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading">#</a></h2>
-<p>You can find the implementation of Exercise 3 <a class="reference internal" href="EX3.html"><span class="std std-doc">HERE</span></a></p>
-</section>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -514,11 +456,11 @@ Members:</p>
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="EX1.html"
+       href="README.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Exercise 1</p>
+        <p class="prev-next-title">ASC-ODE</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -538,17 +480,8 @@ Members:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-group">The Group</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-task">The Task</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-code">Running the Code</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compile">How to compile?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-interface-of-test-ode">Command-line interface of <code class="docutils literal notranslate"><span class="pre">test_ode</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">Plotting</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-time-stepping-methods-are">Available time-stepping methods are</a></li>
 </ul>
   </nav></div>
 
