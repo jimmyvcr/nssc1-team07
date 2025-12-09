@@ -2,7 +2,16 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: intro.md
+root: intro
+parts:
+  - caption: Project Info
+    chapters:
+    - file: README
+  - caption: Exercises
+    chapters:
+    - file: EX1
+    - file: EX2
+    - file: EX3
 
 
 
