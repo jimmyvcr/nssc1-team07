@@ -6,8 +6,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; ASC-ODE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Exercise 3 &#8212; ASC-ODE</title>
   
   
   
@@ -56,9 +57,12 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
-    <link rel="index" title="Index" href="#" />
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'EX3';</script>
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Exercise 2" href="EX2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -121,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -183,10 +185,10 @@
 <li class="toctree-l1"><a class="reference internal" href="README.html">ASC-ODE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="EX1.html">Exercise 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="EX2.html">Exercise 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="EX3.html">Exercise 3</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Exercise 3</a></li>
 </ul>
 
     </div>
@@ -246,6 +248,54 @@
 
 
 
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/EX3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
 <button onclick="toggleFullScreen()"
   class="btn btn-sm btn-fullscreen-button"
   title="Fullscreen mode"
@@ -279,7 +329,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -290,11 +342,28 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1></h1>
+    <h1>Exercise 3</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-distance-constraints">Add Distance Constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exact-derivative">Exact Derivative</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-with-mechanical-structures">Experiment with Mechanical Structures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum">Double-Pendulum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-double-pendulum-on-a-chain">The Double-Pendulum on a chain</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complex-beam-structures">Complex Beam structures</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-springs">Double Pendulum with springs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-a-spinning-top">Build a spinning top</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -304,13 +373,104 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
+  <section class="tex2jax_ignore mathjax_ignore" id="exercise-3">
+<h1>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading">#</a></h1>
+<section id="add-distance-constraints">
+<h2>Add Distance Constraints<a class="headerlink" href="#add-distance-constraints" title="Link to this heading">#</a></h2>
+<p>Implementation of Distance Constraints in <code class="docutils literal notranslate"><span class="pre">mass_spring.hpp</span></code>:
+DistanceConstraints class</p>
+<ul class="simple">
+<li><p>class variables: connectors (array of 2 connectors on which constraint is applied) and length (as constraint)</p></li>
+</ul>
+<p>MassSpringSystem class</p>
+<ul class="simple">
+<li><p>added constraints as class variable <code class="docutils literal notranslate"><span class="pre">m_constraints</span></code></p></li>
+<li><p>basic functions:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">constraints()</span></code>: get constraints</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">addConstraint(DistanceConstraint</span> <span class="pre">c)</span></code>: extend m_constraints vector with c and returns index of added element</p></li>
+<li><p>constraints printed as part of obj</p></li>
+</ul>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">MSS_Function</span></code>
+To enforce constraints if they are added</p>
+<p>–&gt; M distance constraints add M (scalar) Lagrange multipliers <span class="math notranslate nohighlight">\(\lambda\)</span> as unknowns -&gt; extend dimX with M
+–&gt; each constraint gives one scalar equation to solve, matching the number of unknowns -&gt; extend dimF with number of constraints</p>
+<p><code class="docutils literal notranslate"><span class="pre">evaluate(VectorView&lt;double&gt;</span> <span class="pre">x,</span> <span class="pre">VectorView&lt;double&gt;</span> <span class="pre">f)</span></code>: evaluates physical right hand side of mass-spring system by computing gravity + spring forces (acceleration) for every mass with given x (current mass position) and f (pre-allocated memory for force) –&gt; <span class="math notranslate nohighlight">\(f(x)=a(x)\)</span></p>
+<p>For each constraint</p>
+<ul class="simple">
+<li><p>get Lagrange multiplier <span class="math notranslate nohighlight">\(\lambda\)</span> from unknown vector</p></li>
+<li><p>retrieve constraint and its connectors</p></li>
+<li><p>identify positions of connectors</p></li>
+<li><p>compute constraint force on each connector:
+$<span class="math notranslate nohighlight">\(m_i \ddot x_i =\frac{\partial}{\partial x_i} L(x, \lambda)\)</span>$</p>
+<ul>
+<li><p>Lagrange function <span class="math notranslate nohighlight">\(L(x, \lambda) = -U(x) + \left&lt; \lambda , g(x) \right&gt;\)</span> (potential <span class="math notranslate nohighlight">\(U(x)\)</span> already computed in acceleration force from gravity and spring)
+$<span class="math notranslate nohighlight">\(\frac{\partial}{\partial x_i} L(x, \lambda) = \frac{\partial}{\partial x_i} \lambda g(x) = \frac{\partial}{\partial x_i} \lambda (| x - x_0 |^2 - l^2) = \pm 2\lambda*(x-x_0)\)</span>$</p></li>
+<li><p>add constraint forces to forces of connectors</p></li>
+</ul>
+</li>
+<li><p>compute constraint residual:
+$<span class="math notranslate nohighlight">\( 0 = \nabla_\lambda L(x, \lambda) \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( \nabla_\lambda L(x, \lambda) = \nabla_\lambda (-U(x) +  \lambda g(x)) = g(x)\)</span>$</p>
+<ul>
+<li><p>add constraint residual to force at position corresponding to Lagrange multipliers</p></li>
+<li><p>Solver adjusts <span class="math notranslate nohighlight">\(\lambda\)</span> so that these residuals go to zero</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="exact-derivative">
+<h2>Exact Derivative<a class="headerlink" href="#exact-derivative" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Calculate spring force Jacobian: stiffness</p></li>
+<li><p>Calculate constraint Jacobian</p></li>
+<li><p>Weight with mass</p></li>
+</ul>
+</section>
+<section id="experiment-with-mechanical-structures">
+<h2>Experiment with Mechanical Structures<a class="headerlink" href="#experiment-with-mechanical-structures" title="Link to this heading">#</a></h2>
+<section id="double-pendulum">
+<h3>Double-Pendulum<a class="headerlink" href="#double-pendulum" title="Link to this heading">#</a></h3>
+<p>The Jupyter Notebook implentation for a Double-Pendulum can be found <a class="reference internal" href="#mechsystem/mass_spring.ipynb"><span class="xref myst">HERE</span></a>.</p>
+</section>
+<section id="the-double-pendulum-on-a-chain">
+<h3>The Double-Pendulum on a chain<a class="headerlink" href="#the-double-pendulum-on-a-chain" title="Link to this heading">#</a></h3>
+<p>The Jupyter Notebook implentation for a Double-Pendulum with a chain can be found <a class="reference internal" href="#mechsystem/mass_spring_chain.ipynb"><span class="xref myst">HERE</span></a>.</p>
+</section>
+<section id="complex-beam-structures">
+<h3>Complex Beam structures<a class="headerlink" href="#complex-beam-structures" title="Link to this heading">#</a></h3>
+<p>The Jupyter Notebook implentation for a more complex structure in the shape of a crane can be found <a class="reference internal" href="#mechsystem/crane.ipynb"><span class="xref myst">HERE</span></a>.</p>
+</section>
+<section id="double-pendulum-with-springs">
+<h3>Double Pendulum with springs<a class="headerlink" href="#double-pendulum-with-springs" title="Link to this heading">#</a></h3>
+</section>
+<section id="build-a-spinning-top">
+<h3>Build a spinning top<a class="headerlink" href="#build-a-spinning-top" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
 
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
-</div>
-
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
@@ -322,12 +482,45 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="EX2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Exercise 2</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-distance-constraints">Add Distance Constraints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exact-derivative">Exact Derivative</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-with-mechanical-structures">Experiment with Mechanical Structures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum">Double-Pendulum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-double-pendulum-on-a-chain">The Double-Pendulum on a chain</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complex-beam-structures">Complex Beam structures</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-springs">Double Pendulum with springs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-a-spinning-top">Build a spinning top</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
