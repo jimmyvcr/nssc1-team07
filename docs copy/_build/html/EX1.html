@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Exercise 1 &#8212; ASC-ODE</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'EX1';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Exercise 2" href="EX2.html" />
+    <link rel="prev" title="ASC-ODE" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/ASC_Logo_transparent_300ppi_RGB.png" class="logo__image only-light" alt="ASC-ODE - Home"/>
+    <script>document.write(`<img src="_static/ASC_Logo_transparent_300ppi_RGB.png" class="logo__image only-dark" alt="ASC-ODE - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    ASC-ODE
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Exercise 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EX2.html">Exercise 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EX3.html">Exercise 3</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/JSchoeberl/IntroSC.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/EX1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Exercise 1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-time-steps-and-larger-end-times">Different time-steps and larger end-times</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-configuration">Base configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-time-steps">More time steps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation">Longer simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation-with-more-time-steps">Longer simulation with more time steps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-euler">Explicit Euler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-euler">Improved Euler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-euler">Implicit Euler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crank-nicolson">Crank-Nicolson</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducing-the-datasets">Reproducing the datasets</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="exercise-1">
+<h1>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h1>
+<section id="different-time-steps-and-larger-end-times">
+<h2>Different time-steps and larger end-times<a class="headerlink" href="#different-time-steps-and-larger-end-times" title="Link to this heading">#</a></h2>
+<p>Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.</p>
+<section id="base-configuration">
+<h3>Base configuration<a class="headerlink" href="#base-configuration" title="Link to this heading">#</a></h3>
+<p>The first row corresponds to the given parameters for time-step and end-time.</p>
+<p>Calculation time: <span class="math notranslate nohighlight">\(t_{end} = 4*\pi = T\)</span> <br />
+Number of steps: <span class="math notranslate nohighlight">\(n = 100 = N\)</span> <br />
+Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T}{N}= \frac{4*\pi}{100}\)</span></p>
+</section>
+<section id="more-time-steps">
+<h3>More time steps<a class="headerlink" href="#more-time-steps" title="Link to this heading">#</a></h3>
+<p>The second row displays results for 10-times smaller time steps.
+Calculation time: <span class="math notranslate nohighlight">\(t_{end} = T\)</span> <br />
+Number of steps: <span class="math notranslate nohighlight">\(n = N*10\)</span> <br />
+Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T}{N*10}\)</span></p>
+</section>
+<section id="longer-simulation">
+<h3>Longer simulation<a class="headerlink" href="#longer-simulation" title="Link to this heading">#</a></h3>
+<p>The third row shows results for a 10-times bigger end-time.</p>
+<p>Calculation time: <span class="math notranslate nohighlight">\(t_{end} = T*10\)</span> <br />
+Number of steps: <span class="math notranslate nohighlight">\(n = N\)</span> <br />
+Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T*10}{N}\)</span></p>
+</section>
+<section id="longer-simulation-with-more-time-steps">
+<h3>Longer simulation with more time steps<a class="headerlink" href="#longer-simulation-with-more-time-steps" title="Link to this heading">#</a></h3>
+<p>The last row shows what a combined 10-times smaller time steps and 10-times bigger end-time results in.</p>
+<p>Calculation time: <span class="math notranslate nohighlight">\(t_{end} = T*10\)</span> <br />
+Number of steps: <span class="math notranslate nohighlight">\(n = N*10\)</span> <br />
+Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T*10}{N*10}= \frac{T}{N}\)</span></p>
+</section>
+</section>
+<section id="explicit-euler">
+<h2>Explicit Euler<a class="headerlink" href="#explicit-euler" title="Link to this heading">#</a></h2>
+<p>When the time interval is divided into ten times more steps, the explicit Euler method produces more intermediate approximations with smaller local, numerical errors. This results in a solution that more closely matches the analytical sinusoid. This is also reflected in the plots, as the numerical solution is closer to a circle in the phase plot (reduced spiral artifacts), and a sinusiod over time (amplitude preservation).</p>
+<p>When the end-time is increased while keeping the number of steps constant, the step size becomes larger. This reduces the number of intermediate approximations and increases the local numerical error. Because explicit Euler propagates each step from the previous one, these errors accumulate over time, leading to a larger overall deviation from the exact solution.
+This can be seen in the plots: the phase plot no longer resembles a circle, and the time evolution shows an almost flat sinusoid with growing deviations toward the end (amplitude grows beyond analytical bounds).</p>
+<p>Increasing both the number of steps and the end-time by the same factor keeps the step size unchanged, so one might expect the results to somewhat match the original calculation. However, although the local error per step is the same, the longer simulation involves more steps, and because explicit Euler propagates errors, the solution gradually deviates more from the exact trajectory.</p>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_plot_nomod.png"><img alt="_images/mass_spring_phase_plot_nomod.png" src="_images/mass_spring_phase_plot_nomod.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_nomod.png"><img alt="_images/mass_spring_time_evolution_nomod.png" src="_images/mass_spring_time_evolution_nomod.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_plot_10*steps.png"><img alt="_images/mass_spring_phase_plot_10%2Asteps.png" src="_images/mass_spring_phase_plot_10%2Asteps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10*steps.png"><img alt="_images/mass_spring_time_evolution_10%2Asteps.png" src="_images/mass_spring_time_evolution_10%2Asteps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_plot_10*tend.png"><img alt="_images/mass_spring_phase_plot_10%2Atend.png" src="_images/mass_spring_phase_plot_10%2Atend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10*tend.png"><img alt="_images/mass_spring_time_evolution_10%2Atend.png" src="_images/mass_spring_time_evolution_10%2Atend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_plot_10*tend_10*steps.png"><img alt="_images/mass_spring_phase_plot_10%2Atend_10%2Asteps.png" src="_images/mass_spring_phase_plot_10%2Atend_10%2Asteps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10*tend_10*steps.png"><img alt="_images/mass_spring_time_evolution_10%2Atend_10%2Asteps.png" src="_images/mass_spring_time_evolution_10%2Atend_10%2Asteps.png" style="width: 45%;" />
+</a>
+</section>
+<section id="improved-euler">
+<h2>Improved Euler<a class="headerlink" href="#improved-euler" title="Link to this heading">#</a></h2>
+<p>In contrast to the Explicit Euler method, the improved Euler method is more stable with longer similuation time (as long as the number of steps is scaled accordingly).</p>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_nomod.png"><img alt="_images/mass_spring_phase_nomod.png" src="_images/mass_spring_phase_nomod.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_nomod1.png"><img alt="_images/mass_spring_time_evolution_nomod1.png" src="_images/mass_spring_time_evolution_nomod1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10steps.png"><img alt="_images/mass_spring_phase_10steps.png" src="_images/mass_spring_phase_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10steps.png"><img alt="_images/mass_spring_time_evolution_10steps.png" src="_images/mass_spring_time_evolution_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend.png"><img alt="_images/mass_spring_phase_10tend.png" src="_images/mass_spring_phase_10tend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend.png"><img alt="_images/mass_spring_time_evolution_10tend.png" src="_images/mass_spring_time_evolution_10tend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend_10steps.png"><img alt="_images/mass_spring_phase_10tend_10steps.png" src="_images/mass_spring_phase_10tend_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend_10steps.png"><img alt="_images/mass_spring_time_evolution_10tend_10steps.png" src="_images/mass_spring_time_evolution_10tend_10steps.png" style="width: 45%;" />
+</a>
+</section>
+<section id="implicit-euler">
+<h2>Implicit Euler<a class="headerlink" href="#implicit-euler" title="Link to this heading">#</a></h2>
+<p>With the implicit Euler method we observe similar to behavior and stability as the explicit Euler method with the sole difference that instability manifests itself as exponential dampening rather than exponential growth.</p>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_nomod1.png"><img alt="_images/mass_spring_phase_nomod1.png" src="_images/mass_spring_phase_nomod1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_nomod2.png"><img alt="_images/mass_spring_time_evolution_nomod2.png" src="_images/mass_spring_time_evolution_nomod2.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10steps1.png"><img alt="_images/mass_spring_phase_10steps1.png" src="_images/mass_spring_phase_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10steps1.png"><img alt="_images/mass_spring_time_evolution_10steps1.png" src="_images/mass_spring_time_evolution_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend1.png"><img alt="_images/mass_spring_phase_10tend1.png" src="_images/mass_spring_phase_10tend1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend1.png"><img alt="_images/mass_spring_time_evolution_10tend1.png" src="_images/mass_spring_time_evolution_10tend1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend_10steps1.png"><img alt="_images/mass_spring_phase_10tend_10steps1.png" src="_images/mass_spring_phase_10tend_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend_10steps1.png"><img alt="_images/mass_spring_time_evolution_10tend_10steps1.png" src="_images/mass_spring_time_evolution_10tend_10steps1.png" style="width: 45%;" />
+</a>
+</section>
+<section id="crank-nicolson">
+<h2>Crank-Nicolson<a class="headerlink" href="#crank-nicolson" title="Link to this heading">#</a></h2>
+<p>Similar to the improved Euelr for the explicit Euler, the Crank-Nicolson method is a more stable version of the implicit Euler method.
+As seen in the plots, Crank-Nicolson has improved stability over the implicit Euler method as the similuation time is increased.
+Notably, it is even stabler then the improved Euler as the number of steps gets smaller, i.e. the step size get larger; the phase diagram is still circular, although with some artifact but does not spiral.</p>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_nomod2.png"><img alt="_images/mass_spring_phase_nomod2.png" src="_images/mass_spring_phase_nomod2.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_nomod3.png"><img alt="_images/mass_spring_time_evolution_nomod3.png" src="_images/mass_spring_time_evolution_nomod3.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10steps2.png"><img alt="_images/mass_spring_phase_10steps2.png" src="_images/mass_spring_phase_10steps2.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10steps2.png"><img alt="_images/mass_spring_time_evolution_10steps2.png" src="_images/mass_spring_time_evolution_10steps2.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend2.png"><img alt="_images/mass_spring_phase_10tend2.png" src="_images/mass_spring_phase_10tend2.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend2.png"><img alt="_images/mass_spring_time_evolution_10tend2.png" src="_images/mass_spring_time_evolution_10tend2.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend_10steps2.png"><img alt="_images/mass_spring_phase_10tend_10steps2.png" src="_images/mass_spring_phase_10tend_10steps2.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend_10steps2.png"><img alt="_images/mass_spring_time_evolution_10tend_10steps2.png" src="_images/mass_spring_time_evolution_10tend_10steps2.png" style="width: 45%;" />
+</a>
+<section id="reproducing-the-datasets">
+<h3>Reproducing the datasets<a class="headerlink" href="#reproducing-the-datasets" title="Link to this heading">#</a></h3>
+<p>All curves for Exercise 1 were generated from the <code class="docutils literal notranslate"><span class="pre">build/</span></code> directory with the following commands (named CLI options are required now):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+
+<span class="c1"># Explicit Euler</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>exp_euler
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>exp_euler<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>exp_euler<span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>exp_euler<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span><span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+
+<span class="c1"># Improved Euler</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impr_euler
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impr_euler<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impr_euler<span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impr_euler<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span><span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+
+<span class="c1"># Implicit Euler</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impl_euler
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impl_euler<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impl_euler<span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>impl_euler<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span><span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+
+<span class="c1"># Crank–Nicolson</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>crank_nicolson
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>crank_nicolson<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>crank_nicolson<span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--stepper<span class="w"> </span>crank_nicolson<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span><span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+<p>Each run produces a <code class="docutils literal notranslate"><span class="pre">mass_spring_&lt;stepper&gt;_&lt;suffix&gt;.txt</span></code> file inside <code class="docutils literal notranslate"><span class="pre">build/</span></code>. To obtain the figures used in the report, run the plotting helper from the repository root (it automatically looks inside <code class="docutils literal notranslate"><span class="pre">build/</span></code> when only a filename is supplied):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_nomod.txt
+python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10steps.txt
+python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10tend.txt
+python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10tend_10steps.txt
+<span class="c1"># …repeat for impr_euler, impl_euler, crank_nicolson</span>
+</pre></div>
+</div>
+<p>Each invocation drops the corresponding <code class="docutils literal notranslate"><span class="pre">mass_spring_time_evolution_*.png</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_spring_phase_*.png</span></code> files into the stepper-specific folder under <code class="docutils literal notranslate"><span class="pre">_static/demos/</span></code>.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">ASC-ODE</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="EX2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exercise 2</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-time-steps-and-larger-end-times">Different time-steps and larger end-times</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-configuration">Base configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-time-steps">More time steps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation">Longer simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation-with-more-time-steps">Longer simulation with more time steps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-euler">Explicit Euler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-euler">Improved Euler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-euler">Implicit Euler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crank-nicolson">Crank-Nicolson</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducing-the-datasets">Reproducing the datasets</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Anton Zamyatin, Martin Huber, Jimmy-Daniel Vacareanu, Hannah Teis
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

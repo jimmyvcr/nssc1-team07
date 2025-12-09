@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ASC-ODE &#8212; ASC-ODE</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Exercise 1" href="EX1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/ASC_Logo_transparent_300ppi_RGB.png" class="logo__image only-light" alt="ASC-ODE - Home"/>
+    <script>document.write(`<img src="_static/ASC_Logo_transparent_300ppi_RGB.png" class="logo__image only-dark" alt="ASC-ODE - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    ASC-ODE
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="EX1.html">Exercise 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EX2.html">Exercise 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EX3.html">Exercise 3</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/JSchoeberl/IntroSC.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/intro.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ASC-ODE</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-group">The Group</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-task">The Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-code">Running the Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compile">How to compile?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-interface-of-test-ode">Command-line interface of <code class="docutils literal notranslate"><span class="pre">test_ode</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="asc-ode">
+<h1>ASC-ODE<a class="headerlink" href="#asc-ode" title="Link to this heading">#</a></h1>
+<p>A package for solving ordinary differential equations</p>
+<p>Read the <a class="reference external" href="https://tuwien-asc.github.io/ASC-ODE/intro.html">documentation</a></p>
+<p>Find theory behind here: <a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html">https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html</a></p>
+<section id="the-group">
+<h2>The Group<a class="headerlink" href="#the-group" title="Link to this heading">#</a></h2>
+<p>We are <em>team07</em>
+Members:</p>
+<ul class="simple">
+<li><p>Anton Zamyatin <a class="reference external" href="mailto:e12223389&#37;&#52;&#48;student&#46;tuwien&#46;ac&#46;at">e12223389<span>&#64;</span>student<span>&#46;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
+<li><p>Martin Huber <a class="reference external" href="mailto:martin&#46;huber&#37;&#52;&#48;tuwien&#46;ac&#46;at">martin<span>&#46;</span>huber<span>&#64;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
+<li><p>Jimmy-Daniel Vacareanu <a class="reference external" href="mailto:e11901909&#37;&#52;&#48;student&#46;tuwien&#46;ac&#46;at">e11901909<span>&#64;</span>student<span>&#46;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
+<li><p>Hannah Teis <a class="reference external" href="mailto:e12120508&#37;&#52;&#48;student&#46;tuwien&#46;ac&#46;at">e12120508<span>&#64;</span>student<span>&#46;</span>tuwien<span>&#46;</span>ac<span>&#46;</span>at</a></p></li>
+</ul>
+</section>
+<section id="the-task">
+<h2>The Task<a class="headerlink" href="#the-task" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Solve the exercises from the jupyterbook: <a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/ODEs.html">LINK</a></p>
+<ul>
+<li><p>Exercise 1: Jupyterbook Sections 14 - 17</p>
+<ul>
+<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ee.html#exercise">Explicit and Improved Euler</a></p></li>
+<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#excercises">Implicit Euler and Crank-Nicolson</a> (first 3 tasks)</p></li>
+</ul>
+</li>
+<li><p>Exercise 2: Jupyterbook Sections 17 - 19</p>
+<ul>
+<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ie.html#excercises">Model electric network with ODE</a> (last task)</p></li>
+<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercises">Automatic Differentiation part1</a></p></li>
+<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/implementation_ad.html#exercise-test-the-autodiff-class-for-the-pendulum">Automatic Differentiation part2</a></p></li>
+<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/RungeKutta.html#exercises">Runge-Kutta methods</a></p></li>
+</ul>
+</li>
+<li><p>Exercise 3: Jupyter book Section 20</p>
+<ul>
+<li><p>The Exercise can be found <a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/mechanical.html">HERE</a></p></li>
+<li><p><a class="reference external" href="https://jschoeberl.github.io/IntroSC/ODEs/mechanical.html#mass-spring-system">Mass-spring System with Newmark branch</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Push your homework into your git repository (this repository)</p></li>
+</ul>
+</section>
+<section id="running-the-code">
+<h2>Running the Code<a class="headerlink" href="#running-the-code" title="Link to this heading">#</a></h2>
+<section id="how-to-compile">
+<h3>How to compile?<a class="headerlink" href="#how-to-compile" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:jimmyvcr/nssc1-team07.git</span></code></p>
+<p>Then you can use cmake to build ASC-ODE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span>
+<span class="n">make</span>
+</pre></div>
+</div>
+<p>To run the main demo with default settings (mass-spring system, explicit Euler), execute</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">build</span>
+<span class="o">./</span><span class="n">test_ode</span> <span class="o">--</span><span class="n">stepper</span> <span class="n">exp_euler</span> <span class="o">--</span><span class="n">rhs</span> <span class="n">mass_spring</span>
+</pre></div>
+</div>
+</section>
+<section id="command-line-interface-of-test-ode">
+<h3>Command-line interface of <code class="docutils literal notranslate"><span class="pre">test_ode</span></code><a class="headerlink" href="#command-line-interface-of-test-ode" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">test_ode</span></code> now uses named options so different steppers and right-hand sides can be selected consistently:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">test_ode</span> <span class="o">--</span><span class="n">stepper</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">--</span><span class="n">rhs</span> <span class="o">&lt;</span><span class="n">mass_spring</span><span class="o">|</span><span class="n">electric_network</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">stages</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">n</span><span class="o">-</span><span class="n">factor</span> <span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">t</span><span class="o">-</span><span class="n">end</span><span class="o">-</span><span class="n">factor</span> <span class="o">&lt;</span><span class="n">double</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--stepper</span></code> (required): <code class="docutils literal notranslate"><span class="pre">exp_euler</span></code>, <code class="docutils literal notranslate"><span class="pre">impl_euler</span></code>, <code class="docutils literal notranslate"><span class="pre">impr_euler</span></code>, <code class="docutils literal notranslate"><span class="pre">crank_nicolson</span></code>, <code class="docutils literal notranslate"><span class="pre">impl_rk_gauss_legendre</span></code>, <code class="docutils literal notranslate"><span class="pre">impl_rk_gauss_radau</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--rhs</span></code> (default <code class="docutils literal notranslate"><span class="pre">mass_spring</span></code>): switches the modeled system.
+<code class="docutils literal notranslate"><span class="pre">electric_network</span></code> is reserved for the upcoming circuit model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--stages</span></code>: required only for the Gauss–Legendre/Gauss–Radau implicit RK steppers; specifies the number of stages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--n-factor</span></code>, <code class="docutils literal notranslate"><span class="pre">--t-end-factor</span></code>: scale the baseline number of steps (<code class="docutils literal notranslate"><span class="pre">N=100</span></code>) and simulation horizon (<code class="docutils literal notranslate"><span class="pre">T_end=4π</span></code>).</p></li>
+</ul>
+<p>Both <code class="docutils literal notranslate"><span class="pre">--opt</span> <span class="pre">value</span></code> and <code class="docutils literal notranslate"><span class="pre">--opt=value</span></code> syntaxes are supported. Example (3-stage Gauss–Legendre with increased resolution and end-time):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">test_ode</span> <span class="o">--</span><span class="n">rhs</span> <span class="n">mass_spring</span> <span class="o">--</span><span class="n">stepper</span> <span class="n">impl_rk_gauss_legendre</span> <span class="o">--</span><span class="n">stages</span> <span class="mi">3</span> <span class="o">--</span><span class="n">n</span><span class="o">-</span><span class="n">factor</span> <span class="mi">10</span> <span class="o">--</span><span class="n">t</span><span class="o">-</span><span class="n">end</span><span class="o">-</span><span class="n">factor</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting">
+<h3>Plotting<a class="headerlink" href="#plotting" title="Link to this heading">#</a></h3>
+<p>First, navigate to the root directory and install all Python dependencies using <code class="docutils literal notranslate"><span class="pre">uv</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>sync
+</pre></div>
+</div>
+<p>After running the <code class="docutils literal notranslate"><span class="pre">test_ode</span></code> programm as described above, you can plot the results saved to <code class="docutils literal notranslate"><span class="pre">build/&lt;system&gt;_&lt;stepper&gt;_*.txt</span></code> by calling:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>build/&lt;system&gt;_&lt;stepper&gt;_*.txt
+</pre></div>
+</div>
+<p>The plots will be saved to <code class="docutils literal notranslate"><span class="pre">demos/&lt;Stepper&gt;/&lt;system&gt;_phase_*.png</span></code> and <code class="docutils literal notranslate"><span class="pre">demos/&lt;Stepper&gt;/&lt;system&gt;_time_evolution_*.png</span></code>.</p>
+</section>
+</section>
+<section id="exercise-1">
+<h2>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h2>
+<p>You can find the implementation of Exercise 1 <a class="reference internal" href="EX1.html"><span class="std std-doc">HERE</span></a></p>
+</section>
+<section id="exercise-2">
+<h2>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h2>
+<p>You can find the implementation of Exercise 2 <a class="reference internal" href="EX2.html"><span class="std std-doc">HERE</span></a></p>
+</section>
+<section id="exercise-3">
+<h2>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading">#</a></h2>
+<p>You can find the implementation of Exercise 3 <a class="reference internal" href="EX3.html"><span class="std std-doc">HERE</span></a></p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="EX1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exercise 1</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-group">The Group</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-task">The Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-code">Running the Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-compile">How to compile?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-interface-of-test-ode">Command-line interface of <code class="docutils literal notranslate"><span class="pre">test_ode</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Anton Zamyatin, Martin Huber, Jimmy-Daniel Vacareanu, Hannah Teis
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -86,6 +86,8 @@ To make the `autodiff.hpp` a (fully) functional Automatic Differentiation class 
 <img src="_static/demos/Legendre/legendre_polynomials.png" width="45%" style="display:inline-block; margin-right:5%;">
 <img src="_static/demos/Legendre/legendre_polynomials_derivatives.png" width="45%" style="display:inline-block;">
 
+  
+
 **Compilation:**
 
 ```bash

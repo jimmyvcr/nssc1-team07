@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Exercise 2 &#8212; ASC-ODE</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'EX2';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Exercise 3" href="EX3.html" />
+    <link rel="prev" title="Exercise 1" href="EX1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/ASC_Logo_transparent_300ppi_RGB.png" class="logo__image only-light" alt="ASC-ODE - Home"/>
+    <script>document.write(`<img src="_static/ASC_Logo_transparent_300ppi_RGB.png" class="logo__image only-dark" alt="ASC-ODE - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    ASC-ODE
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="EX1.html">Exercise 1</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Exercise 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EX3.html">Exercise 3</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/JSchoeberl/IntroSC.git" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/EX2.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Exercise 2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electric-network">Electric Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-methods">Comparison of Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-euler-unstable-and-adds-energy">Explicit Euler (Unstable and Adds Energy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-time-step">Standard Time Step</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#large-time-step-10-tend">Large Time Step (10 * tend)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-euler-removes-energy">Implicit Euler (Removes Energy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Standard Time Step</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Large Time Step (10 * tend)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#crank-nicolson-preserves-energy">Crank-Nicolson (Preserves Energy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Standard Time Step</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Large Time Step (10 * tend)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autodiff">Autodiff</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#legendre-polynomials">Legendre polynomials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-rk">Runge-Kutta (RK)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-2-point-runge-kutta">Implicit 2-point Runge-Kutta</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gauss-radau-quadrature">Gauss-Radau quadrature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gauss-legendre-quadrature">Gauss-Legendre quadrature</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-3-point-runge-kutta">Implicit 3-point Runge-Kutta</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Gauss-Radau quadrature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Gauss-Legendre quadrature</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-runge-kutta">Explicit Runge-Kutta</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#classic-rk-4">Classic <span class="math notranslate nohighlight">\(RK_4\)</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="exercise-2">
+<h1>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h1>
+<section id="electric-network">
+<h2>Electric Network<a class="headerlink" href="#electric-network" title="Link to this heading">#</a></h2>
+<p>The system is described by a second-order ODE (<span class="math notranslate nohighlight">\(y_1'(t) = -\frac{1}{RC} y_1(t) + \frac{1}{RC} \cos(\omega t))\)</span>, converted into a 2D system where the state vector y = (position, velocity). For the electric circuit analogy, “position” represents the charge on the capacitor and “velocity” represents the current.</p>
+<section id="comparison-of-methods">
+<h3>Comparison of Methods<a class="headerlink" href="#comparison-of-methods" title="Link to this heading">#</a></h3>
+<section id="explicit-euler-unstable-and-adds-energy">
+<h4>Explicit Euler (Unstable and Adds Energy)<a class="headerlink" href="#explicit-euler-unstable-and-adds-energy" title="Link to this heading">#</a></h4>
+<p>The Explicit Euler method is only conditionally stable and is unsuitable for purely oscillatory systems. Its stability region does not cover the imaginary axis, where the eigenvalues for this system lie.</p>
+<section id="standard-time-step">
+<h5>Standard Time Step<a class="headerlink" href="#standard-time-step" title="Link to this heading">#</a></h5>
+<p>The phase plot shows a clear outward spiral, and the time evolution plot reveals a slowly but steadily increasing amplitude. The method continuously adds artificial energy to the system, causing it to diverge from the true solution.</p>
+</section>
+<section id="large-time-step-10-tend">
+<h5>Large Time Step (10 * tend)<a class="headerlink" href="#large-time-step-10-tend" title="Link to this heading">#</a></h5>
+<p>The instability becomes more visible. The solution is immediately thrown into a high-energy state. The phase plot is jagged, and the time evolution is non-physical. This shows a complete breakdown of the method.</p>
+<img src="_static/demos/ExplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="_static/demos/ExplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+</section>
+</section>
+<section id="implicit-euler-removes-energy">
+<h4>Implicit Euler (Removes Energy)<a class="headerlink" href="#implicit-euler-removes-energy" title="Link to this heading">#</a></h4>
+<p>In direct contrast to its explicit counterpart, the Implicit Euler method is stable, but this stability comes at the cost of introducing significant numerical damping.</p>
+<section id="id1">
+<h5>Standard Time Step<a class="headerlink" href="#id1" title="Link to this heading">#</a></h5>
+<p>The phase plot shows an inward spiral, and the time evolution plot shows the amplitude slowly decaying. The method artificially removes energy from the system, which is incorrect for a conservative system.</p>
+</section>
+<section id="id2">
+<h5>Large Time Step (10 * tend)<a class="headerlink" href="#id2" title="Link to this heading">#</a></h5>
+<p>The damping effect is more visible. The amplitude is immediately and severely dampened, settling into a low-energy oscillation that is a fraction of the true solution’s amplitude. While the method remains stable, it is inaccurate, as it has dissipated a significant portion of the system’s energy.</p>
+<img src="_static/demos/ImplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="_static/demos/ImplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+</section>
+</section>
+<section id="crank-nicolson-preserves-energy">
+<h4>Crank-Nicolson (Preserves Energy)<a class="headerlink" href="#crank-nicolson-preserves-energy" title="Link to this heading">#</a></h4>
+<p>The Crank-Nicolson method shows better stability and accuracy for oscillatory problems, correctly capturing the conservative nature of the system.</p>
+<section id="id3">
+<h5>Standard Time Step<a class="headerlink" href="#id3" title="Link to this heading">#</a></h5>
+<p>The phase plot shows a stable, closed loop, and the time evolution shows a constant amplitude. The method accurately preserves the system’s energy.</p>
+</section>
+<section id="id4">
+<h5>Large Time Step (10 * tend)<a class="headerlink" href="#id4" title="Link to this heading">#</a></h5>
+<p>Even with a much larger time step, the method remains stable and energy preserving. The amplitude of the oscillation does not grow or decay. The trajectory becomes more angular due to the coarse time step, but it remains on a stable, closed path. This shows its suitability simulations of oscillatory systems.</p>
+<img src="_static/demos/CrankNicolson/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<br>
+<img src="_static/demos/CrankNicolson/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
+</section>
+</section>
+</section>
+</section>
+<section id="autodiff">
+<h2>Autodiff<a class="headerlink" href="#autodiff" title="Link to this heading">#</a></h2>
+<p>To make the <code class="docutils literal notranslate"><span class="pre">autodiff.hpp</span></code> a (fully) functional Automatic Differentiation class operators and functions were added:</p>
+<ul class="simple">
+<li><p>Operators:</p>
+<ul>
+<li><p>operator* (T a, const AutoDiff&lt;N,T&gt;&amp; b): scalar multiplication</p></li>
+<li><p>operator/ (const AutoDiff&lt;N,T&gt;&amp; a, const AutoDiff&lt;N,T&gt;&amp; b): division using the quotient rule</p></li>
+<li><p>operator- (const AutoDiff&lt;N,T&gt;&amp; a, const AutoDiff&lt;N,T&gt;&amp; b): subtraction</p></li>
+<li><p>operator- (const AutoDiff&lt;N, T&gt; &amp;a): unary negation of value and derivatives</p></li>
+<li><p>operator== (const AutoDiff&lt;N,T&gt;&amp; a, const AutoDiff&lt;N,T&gt;&amp; b): compares both values and derivatives</p></li>
+</ul>
+</li>
+<li><p>Functions:</p>
+<ul>
+<li><p>Basic trigonometric functions cos(x), tan(x): cos (const AutoDiff&lt;N, T&gt; &amp;a), tan (const AutoDiff&lt;N, T&gt; &amp;a)</p></li>
+<li><p>Exponential <span class="math notranslate nohighlight">\(e^x\)</span>: exp (const AutoDiff&lt;N, T&gt; &amp;a)</p></li>
+<li><p>Logarithmic log(x): log (const AutoDiff&lt;N, T&gt; &amp;a)</p></li>
+<li><p>Power <span class="math notranslate nohighlight">\(a^x\)</span>, <span class="math notranslate nohighlight">\(x^a\)</span>: pow (const AutoDiff&lt;N, T&gt; &amp;a, T exp), pow (T a,const AutoDiff&lt;N, T&gt; &amp;exp)</p></li>
+<li><p>Squareroot <span class="math notranslate nohighlight">\(\sqrt{x}\)</span> as a wrapper of pow function: sqr (const AutoDiff&lt;N, T&gt;&amp; a)</p></li>
+</ul>
+</li>
+</ul>
+<section id="legendre-polynomials">
+<h3>Legendre polynomials<a class="headerlink" href="#legendre-polynomials" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">legendre_autodiff.cpp</span></code> evaluates Legendre polynomials up to order 5 over the interval <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code> and writes the results to a CSV file with columns x, P0, dP0/dx, P1, dP1/dx, …, P5, dP5/dx</p>
+<p><code class="docutils literal notranslate"><span class="pre">plot_legendre.py</span></code> reads this CSV and generates plots of the polynomials and their derivatives. Both the CSV and the plots are saved in <code class="docutils literal notranslate"><span class="pre">_static/demos/Legendre</span></code>.</p>
+<a class="reference internal image-reference" href="_images/legendre_polynomials.png"><img alt="_images/legendre_polynomials.png" src="_images/legendre_polynomials.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/legendre_polynomials_derivatives.png"><img alt="_images/legendre_polynomials_derivatives.png" src="_images/legendre_polynomials_derivatives.png" style="width: 45%;" />
+</a>
+<p><strong>Compilation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++20<span class="w"> </span>-I./src<span class="w"> </span>_static/demos/legendre_autodiff.cpp<span class="w"> </span>-o<span class="w"> </span>_static/demos/legendre_autodiff
+</pre></div>
+</div>
+<p>The pendulum class is implemented in <code class="docutils literal notranslate"><span class="pre">nonlinfunc.hpp</span></code>.
+<code class="docutils literal notranslate"><span class="pre">pendulum_demo.cpp</span></code> evaluates the pendulum system and prints the function values and Jacobian to the terminal.</p>
+<p><strong>Compilation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++20<span class="w"> </span>-I./src<span class="w"> </span>_static/demos/legendre_autodiff.cpp<span class="w"> </span>-o<span class="w"> </span>_static/demos/legendre_autodiff
+</pre></div>
+</div>
+</section>
+</section>
+<section id="runge-kutta-rk">
+<h2>Runge-Kutta (RK)<a class="headerlink" href="#runge-kutta-rk" title="Link to this heading">#</a></h2>
+<p>The order of the RK method depends on the polynomial exactness of the quadrature rule used.
+We compare to quadrature rules:</p>
+<ol class="arabic simple">
+<li><p>Gauss–Radau</p></li>
+</ol>
+<ul class="simple">
+<li><p>One endpoint is included (left or right)</p></li>
+<li><p><span class="math notranslate nohighlight">\(s\)</span> nodes <span class="math notranslate nohighlight">\(\to\)</span> polynomial exactness up to degree <span class="math notranslate nohighlight">\(2s−2\)</span></p></li>
+<li><p>RK method order = <span class="math notranslate nohighlight">\(2s−1\)</span></p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Gauss–Legendre</p></li>
+</ol>
+<ul class="simple">
+<li><p>No endpoints included</p></li>
+<li><p><span class="math notranslate nohighlight">\(s\)</span> nodes <span class="math notranslate nohighlight">\(\to\)</span> polynomial exactness up to degree <span class="math notranslate nohighlight">\(2s−1\)</span></p></li>
+<li><p>RK method order = 2s (optimal!)</p></li>
+</ul>
+<section id="implicit-2-point-runge-kutta">
+<h3>Implicit 2-point Runge-Kutta<a class="headerlink" href="#implicit-2-point-runge-kutta" title="Link to this heading">#</a></h3>
+<p>The 2‑stage RK schemes extend the midpoint rule by adding a second quadrature node.
+Because Gauss–Legendre places both nodes strictly inside the interval, it achieves higher accuracy than Gauss–Radau, which fixes one node at the endpoint.
+The impact shows up most clearly for long simulations (third row):
+Gauss–Radau’s solution amplitude decays rapidly, while Gauss–Legendre preserves the oscillation almost perfectly.
+Both methods still exhibit a phase shift as the simulation lengthens.</p>
+<section id="gauss-radau-quadrature">
+<h4>Gauss-Radau quadrature<a class="headerlink" href="#gauss-radau-quadrature" title="Link to this heading">#</a></h4>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_nomod.png"><img alt="_images/mass_spring_phase_s2_nomod.png" src="_images/mass_spring_phase_s2_nomod.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_nomod.png"><img alt="_images/mass_spring_time_evolution_s2_nomod.png" src="_images/mass_spring_time_evolution_s2_nomod.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_10steps.png"><img alt="_images/mass_spring_phase_s2_10steps.png" src="_images/mass_spring_phase_s2_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_10steps.png"><img alt="_images/mass_spring_time_evolution_s2_10steps.png" src="_images/mass_spring_time_evolution_s2_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_10tend.png"><img alt="_images/mass_spring_phase_s2_10tend.png" src="_images/mass_spring_phase_s2_10tend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_10tend.png"><img alt="_images/mass_spring_time_evolution_s2_10tend.png" src="_images/mass_spring_time_evolution_s2_10tend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_10tend_10steps.png"><img alt="_images/mass_spring_phase_s2_10tend_10steps.png" src="_images/mass_spring_phase_s2_10tend_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_10tend_10steps.png"><img alt="_images/mass_spring_time_evolution_s2_10tend_10steps.png" src="_images/mass_spring_time_evolution_s2_10tend_10steps.png" style="width: 45%;" />
+</a>
+</section>
+<section id="gauss-legendre-quadrature">
+<h4>Gauss-Legendre quadrature<a class="headerlink" href="#gauss-legendre-quadrature" title="Link to this heading">#</a></h4>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_nomod1.png"><img alt="_images/mass_spring_phase_s2_nomod1.png" src="_images/mass_spring_phase_s2_nomod1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_nomod1.png"><img alt="_images/mass_spring_time_evolution_s2_nomod1.png" src="_images/mass_spring_time_evolution_s2_nomod1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_10steps1.png"><img alt="_images/mass_spring_phase_s2_10steps1.png" src="_images/mass_spring_phase_s2_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_10steps1.png"><img alt="_images/mass_spring_time_evolution_s2_10steps1.png" src="_images/mass_spring_time_evolution_s2_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_10tend1.png"><img alt="_images/mass_spring_phase_s2_10tend1.png" src="_images/mass_spring_phase_s2_10tend1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_10tend1.png"><img alt="_images/mass_spring_time_evolution_s2_10tend1.png" src="_images/mass_spring_time_evolution_s2_10tend1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s2_10tend_10steps1.png"><img alt="_images/mass_spring_phase_s2_10tend_10steps1.png" src="_images/mass_spring_phase_s2_10tend_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s2_10tend_10steps1.png"><img alt="_images/mass_spring_time_evolution_s2_10tend_10steps1.png" src="_images/mass_spring_time_evolution_s2_10tend_10steps1.png" style="width: 45%;" />
+</a>
+</section>
+</section>
+<section id="implicit-3-point-runge-kutta">
+<h3>Implicit 3-point Runge-Kutta<a class="headerlink" href="#implicit-3-point-runge-kutta" title="Link to this heading">#</a></h3>
+<p>Adding an extra quadrature point for a total of <span class="math notranslate nohighlight">\(s=3\)</span> points notably improves accuracy of the RK method for both quadrature schemes.
+It effectively eliminates phase shift and reduces errors due to amplitude decay (although Gauss-Radau still experiences some decay).</p>
+<section id="id5">
+<h4>Gauss-Radau quadrature<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_nomod.png"><img alt="_images/mass_spring_phase_s3_nomod.png" src="_images/mass_spring_phase_s3_nomod.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_nomod.png"><img alt="_images/mass_spring_time_evolution_s3_nomod.png" src="_images/mass_spring_time_evolution_s3_nomod.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_10steps.png"><img alt="_images/mass_spring_phase_s3_10steps.png" src="_images/mass_spring_phase_s3_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_10steps.png"><img alt="_images/mass_spring_time_evolution_s3_10steps.png" src="_images/mass_spring_time_evolution_s3_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_10tend.png"><img alt="_images/mass_spring_phase_s3_10tend.png" src="_images/mass_spring_phase_s3_10tend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_10tend.png"><img alt="_images/mass_spring_time_evolution_s3_10tend.png" src="_images/mass_spring_time_evolution_s3_10tend.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_10tend_10steps.png"><img alt="_images/mass_spring_phase_s3_10tend_10steps.png" src="_images/mass_spring_phase_s3_10tend_10steps.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_10tend_10steps.png"><img alt="_images/mass_spring_time_evolution_s3_10tend_10steps.png" src="_images/mass_spring_time_evolution_s3_10tend_10steps.png" style="width: 45%;" />
+</a>
+</section>
+<section id="id6">
+<h4>Gauss-Legendre quadrature<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_nomod1.png"><img alt="_images/mass_spring_phase_s3_nomod1.png" src="_images/mass_spring_phase_s3_nomod1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_nomod1.png"><img alt="_images/mass_spring_time_evolution_s3_nomod1.png" src="_images/mass_spring_time_evolution_s3_nomod1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_10steps1.png"><img alt="_images/mass_spring_phase_s3_10steps1.png" src="_images/mass_spring_phase_s3_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_10steps1.png"><img alt="_images/mass_spring_time_evolution_s3_10steps1.png" src="_images/mass_spring_time_evolution_s3_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_10tend1.png"><img alt="_images/mass_spring_phase_s3_10tend1.png" src="_images/mass_spring_phase_s3_10tend1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_10tend1.png"><img alt="_images/mass_spring_time_evolution_s3_10tend1.png" src="_images/mass_spring_time_evolution_s3_10tend1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_s3_10tend_10steps1.png"><img alt="_images/mass_spring_phase_s3_10tend_10steps1.png" src="_images/mass_spring_phase_s3_10tend_10steps1.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_s3_10tend_10steps1.png"><img alt="_images/mass_spring_time_evolution_s3_10tend_10steps1.png" src="_images/mass_spring_time_evolution_s3_10tend_10steps1.png" style="width: 45%;" />
+</a>
+</section>
+</section>
+<section id="explicit-runge-kutta">
+<h3>Explicit Runge-Kutta<a class="headerlink" href="#explicit-runge-kutta" title="Link to this heading">#</a></h3>
+<p>Explicit RK steppers load their Butcher tableaux from folders that start with the prefix <code class="docutils literal notranslate"><span class="pre">ExplicitRK</span></code>. Each folder must contain a <code class="docutils literal notranslate"><span class="pre">tableau.txt</span></code> file. For instance, <code class="docutils literal notranslate"><span class="pre">_static/demos/ExplicitRK_RK4Classic/tableau.txt</span></code> stores the standard RK4 tableau and can be reused for any run.</p>
+<p><strong>Running <code class="docutils literal notranslate"><span class="pre">test_ode</span></code>:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic<span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span><span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--tableau-folder</span></code> accepts relative paths, so tab-completion works both from the repo root and from <code class="docutils literal notranslate"><span class="pre">build/</span></code>. The output files follow the pattern <code class="docutils literal notranslate"><span class="pre">mass_spring_exp_rk_&lt;folder_suffix&gt;_&lt;modifiers&gt;.txt</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">mass_spring_exp_rk_rk4classic_nomod.txt</span></code>).</p>
+<p><strong>Plotting explicit RK runs:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_nomod.txt
+uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10steps.txt
+uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10tend.txt
+uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10tend_10steps.txt
+</pre></div>
+</div>
+<p>The plotting helper automatically writes the figures into <code class="docutils literal notranslate"><span class="pre">_static/demos/ExplicitRK_RK4Classic/</span></code> and uses filenames of the form <code class="docutils literal notranslate"><span class="pre">mass_spring_time_evolution_&lt;modifiers&gt;.png</span></code> / <code class="docutils literal notranslate"><span class="pre">mass_spring_phase_&lt;modifiers&gt;.png</span></code>.
+Only the physical modifiers (e.g., <code class="docutils literal notranslate"><span class="pre">10steps</span></code>, <code class="docutils literal notranslate"><span class="pre">10tend</span></code>) remain in the filename; the RK tableau is implied by the folder.</p>
+<section id="classic-rk-4">
+<h4>Classic <span class="math notranslate nohighlight">\(RK_4\)</span><a class="headerlink" href="#classic-rk-4" title="Link to this heading">#</a></h4>
+<p>The classical fourth-order Runge–Kutta scheme exhibits phase drift and amplitude damping comparable to the 2-point Gauss–Radau method.
+Despite using four stages, it achieves only second-order accuracy because two of those stages coincide with the interval endpoints.</p>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_nomod3.png"><img alt="_images/mass_spring_phase_nomod3.png" src="_images/mass_spring_phase_nomod3.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_nomod4.png"><img alt="_images/mass_spring_time_evolution_nomod4.png" src="_images/mass_spring_time_evolution_nomod4.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10steps3.png"><img alt="_images/mass_spring_phase_10steps3.png" src="_images/mass_spring_phase_10steps3.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10steps3.png"><img alt="_images/mass_spring_time_evolution_10steps3.png" src="_images/mass_spring_time_evolution_10steps3.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend3.png"><img alt="_images/mass_spring_phase_10tend3.png" src="_images/mass_spring_phase_10tend3.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend3.png"><img alt="_images/mass_spring_time_evolution_10tend3.png" src="_images/mass_spring_time_evolution_10tend3.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_phase_10tend_10steps3.png"><img alt="_images/mass_spring_phase_10tend_10steps3.png" src="_images/mass_spring_phase_10tend_10steps3.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/mass_spring_time_evolution_10tend_10steps3.png"><img alt="_images/mass_spring_time_evolution_10tend_10steps3.png" src="_images/mass_spring_time_evolution_10tend_10steps3.png" style="width: 45%;" />
+</a>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="EX1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Exercise 1</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="EX3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exercise 3</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#electric-network">Electric Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-methods">Comparison of Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-euler-unstable-and-adds-energy">Explicit Euler (Unstable and Adds Energy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-time-step">Standard Time Step</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#large-time-step-10-tend">Large Time Step (10 * tend)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-euler-removes-energy">Implicit Euler (Removes Energy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Standard Time Step</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Large Time Step (10 * tend)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#crank-nicolson-preserves-energy">Crank-Nicolson (Preserves Energy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Standard Time Step</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Large Time Step (10 * tend)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autodiff">Autodiff</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#legendre-polynomials">Legendre polynomials</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-rk">Runge-Kutta (RK)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-2-point-runge-kutta">Implicit 2-point Runge-Kutta</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gauss-radau-quadrature">Gauss-Radau quadrature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gauss-legendre-quadrature">Gauss-Legendre quadrature</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-3-point-runge-kutta">Implicit 3-point Runge-Kutta</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Gauss-Radau quadrature</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Gauss-Legendre quadrature</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-runge-kutta">Explicit Runge-Kutta</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#classic-rk-4">Classic <span class="math notranslate nohighlight">\(RK_4\)</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Anton Zamyatin, Martin Huber, Jimmy-Daniel Vacareanu, Hannah Teis
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
