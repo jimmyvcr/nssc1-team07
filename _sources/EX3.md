@@ -47,18 +47,22 @@ For each constraint
 
 ## Experiment with Mechanical Structures
 
-### Double-Pendulum
+### Double Pendulum with springs
 
-The Jupyter Notebook implentation for a Double-Pendulum can be found [HERE](mechsystem/mass_spring.ipynb).
+The Jupyter Notebook implementation for a regular Double-Pendulum using springs can be found [HERE](mechsystem/mass_spring.ipynb).
+
+### Double Pendulum with distance constraints
+
+The Jupyter Notebook implementation for a Double-Pendulum where springs are replaced by distance constraints can be found [HERE](mechsystem/double_pendulum.ipynb).
 
 ### The Double-Pendulum on a chain
 
-The Jupyter Notebook implentation for a Double-Pendulum with a chain can be found [HERE](mechsystem/mass_spring_chain.ipynb).
+The Jupyter Notebook implementation for a Double-Pendulum with a chain can be found [HERE](mechsystem/mass_spring_chain.ipynb).
 
 ### Complex Beam structures
 
-The Jupyter Notebook implentation for a more complex structure in the shape of a crane can be found [HERE](mechsystem/crane.ipynb).
-
-### Double Pendulum with springs
+The Jupyter Notebook implementation for a more complex structure in the shape of a crane can be found [HERE](mechsystem/crane.ipynb).
 
 ### Build a spinning top
+
+The Jupyter Notebook implementation containing the spinning top simulation can be found [HERE](mechsystem/spinning_top.ipynb).

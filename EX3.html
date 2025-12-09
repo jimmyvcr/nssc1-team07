@@ -176,15 +176,11 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Welcome to ASC-ODE’s documentation!
+                    ASC-ODE
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project Info</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="README.html">ASC-ODE</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Exercises</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="EX1.html">Exercise 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="EX2.html">Exercise 2</a></li>
@@ -355,10 +351,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-distance-constraints">Add Distance Constraints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exact-derivative">Exact Derivative</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-with-mechanical-structures">Experiment with Mechanical Structures</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum">Double-Pendulum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-springs">Double Pendulum with springs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-distance-constraints">Double Pendulum with distance constraints</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-double-pendulum-on-a-chain">The Double-Pendulum on a chain</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complex-beam-structures">Complex Beam structures</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-springs">Double Pendulum with springs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-a-spinning-top">Build a spinning top</a></li>
 </ul>
 </li>
@@ -431,23 +427,25 @@ $<span class="math notranslate nohighlight">\( 0 = \nabla_\lambda L(x, \lambda) 
 </section>
 <section id="experiment-with-mechanical-structures">
 <h2>Experiment with Mechanical Structures<a class="headerlink" href="#experiment-with-mechanical-structures" title="Link to this heading">#</a></h2>
-<section id="double-pendulum">
-<h3>Double-Pendulum<a class="headerlink" href="#double-pendulum" title="Link to this heading">#</a></h3>
-<p>The Jupyter Notebook implentation for a Double-Pendulum can be found <a class="reference internal" href="#mechsystem/mass_spring.ipynb"><span class="xref myst">HERE</span></a>.</p>
+<section id="double-pendulum-with-springs">
+<h3>Double Pendulum with springs<a class="headerlink" href="#double-pendulum-with-springs" title="Link to this heading">#</a></h3>
+<p>The Jupyter Notebook implementation for a regular Double-Pendulum using springs can be found <a class="reference internal" href="mechsystem/mass_spring.html"><span class="std std-doc">HERE</span></a>.</p>
+</section>
+<section id="double-pendulum-with-distance-constraints">
+<h3>Double Pendulum with distance constraints<a class="headerlink" href="#double-pendulum-with-distance-constraints" title="Link to this heading">#</a></h3>
+<p>The Jupyter Notebook implementation for a Double-Pendulum where springs are replaced by distance constraints can be found <a class="reference internal" href="mechsystem/double_pendulum.html"><span class="std std-doc">HERE</span></a>.</p>
 </section>
 <section id="the-double-pendulum-on-a-chain">
 <h3>The Double-Pendulum on a chain<a class="headerlink" href="#the-double-pendulum-on-a-chain" title="Link to this heading">#</a></h3>
-<p>The Jupyter Notebook implentation for a Double-Pendulum with a chain can be found <a class="reference internal" href="#mechsystem/mass_spring_chain.ipynb"><span class="xref myst">HERE</span></a>.</p>
+<p>The Jupyter Notebook implementation for a Double-Pendulum with a chain can be found <a class="reference internal" href="mechsystem/mass_spring_chain.html"><span class="std std-doc">HERE</span></a>.</p>
 </section>
 <section id="complex-beam-structures">
 <h3>Complex Beam structures<a class="headerlink" href="#complex-beam-structures" title="Link to this heading">#</a></h3>
-<p>The Jupyter Notebook implentation for a more complex structure in the shape of a crane can be found <a class="reference internal" href="#mechsystem/crane.ipynb"><span class="xref myst">HERE</span></a>.</p>
-</section>
-<section id="double-pendulum-with-springs">
-<h3>Double Pendulum with springs<a class="headerlink" href="#double-pendulum-with-springs" title="Link to this heading">#</a></h3>
+<p>The Jupyter Notebook implementation for a more complex structure in the shape of a crane can be found <a class="reference internal" href="mechsystem/crane.html"><span class="std std-doc">HERE</span></a>.</p>
 </section>
 <section id="build-a-spinning-top">
 <h3>Build a spinning top<a class="headerlink" href="#build-a-spinning-top" title="Link to this heading">#</a></h3>
+<p>The Jupyter Notebook implementation containing the spinning top simulation can be found <a class="reference internal" href="mechsystem/spinning_top.html"><span class="std std-doc">HERE</span></a>.</p>
 </section>
 </section>
 </section>
@@ -510,10 +508,10 @@ $<span class="math notranslate nohighlight">\( 0 = \nabla_\lambda L(x, \lambda) 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-distance-constraints">Add Distance Constraints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exact-derivative">Exact Derivative</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-with-mechanical-structures">Experiment with Mechanical Structures</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum">Double-Pendulum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-springs">Double Pendulum with springs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-distance-constraints">Double Pendulum with distance constraints</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-double-pendulum-on-a-chain">The Double-Pendulum on a chain</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complex-beam-structures">Complex Beam structures</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#double-pendulum-with-springs">Double Pendulum with springs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-a-spinning-top">Build a spinning top</a></li>
 </ul>
 </li>
