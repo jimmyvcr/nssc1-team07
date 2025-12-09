@@ -1,7 +1,5 @@
 # Exercise 1
 
-## Different time-steps and larger end-times
-
 Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.  
 
 ### Base configuration
@@ -44,40 +42,40 @@ This can be seen in the plots: the phase plot no longer resembles a circle, and 
 
 Increasing both the number of steps and the end-time by the same factor keeps the step size unchanged, so one might expect the results to somewhat match the original calculation. However, although the local error per step is the same, the longer simulation involves more steps, and because explicit Euler propagates errors, the solution gradually deviates more from the exact trajectory.
 
-<img src="demos/ExplicitEuler/mass_spring_phase_plot_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
-<img src="demos/ExplicitEuler/mass_spring_phase_plot_10*steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/mass_spring_time_evolution_10*steps.png" width="45%" style="display:inline-block;">
-<img src="demos/ExplicitEuler/mass_spring_phase_plot_10*tend.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/mass_spring_time_evolution_10*tend.png" width="45%" style="display:inline-block;">
-<img src="demos/ExplicitEuler/mass_spring_phase_plot_10*tend_10*steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/mass_spring_time_evolution_10*tend_10*steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ExplicitEuler/mass_spring_phase_plot_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ExplicitEuler/mass_spring_phase_plot_10*steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/mass_spring_time_evolution_10*steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ExplicitEuler/mass_spring_phase_plot_10*tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/mass_spring_time_evolution_10*tend.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ExplicitEuler/mass_spring_phase_plot_10*tend_10*steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/mass_spring_time_evolution_10*tend_10*steps.png" width="45%" style="display:inline-block;">
 
 ## Improved Euler
 
 In contrast to the Explicit Euler method, the improved Euler method is more stable with longer similuation time (as long as the number of steps is scaled accordingly).
 
-<img src="demos/ImprovedEuler/mass_spring_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImprovedEuler/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
-<img src="demos/ImprovedEuler/mass_spring_phase_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImprovedEuler/mass_spring_time_evolution_10steps.png" width="45%" style="display:inline-block;">
-<img src="demos/ImprovedEuler/mass_spring_phase_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImprovedEuler/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
-<img src="demos/ImprovedEuler/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImprovedEuler/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImprovedEuler/mass_spring_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImprovedEuler/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImprovedEuler/mass_spring_phase_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImprovedEuler/mass_spring_time_evolution_10steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImprovedEuler/mass_spring_phase_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImprovedEuler/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImprovedEuler/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImprovedEuler/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
 
 ## Implicit Euler
 
 With the implicit Euler method we observe similar to behavior and stability as the explicit Euler method with the sole difference that instability manifests itself as exponential dampening rather than exponential growth.
 
-<img src="demos/ImplicitEuler/mass_spring_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
-<img src="demos/ImplicitEuler/mass_spring_phase_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/mass_spring_time_evolution_10steps.png" width="45%" style="display:inline-block;">
-<img src="demos/ImplicitEuler/mass_spring_phase_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
-<img src="demos/ImplicitEuler/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImplicitEuler/mass_spring_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImplicitEuler/mass_spring_phase_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/mass_spring_time_evolution_10steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImplicitEuler/mass_spring_phase_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImplicitEuler/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
 
 ## Crank-Nicolson
 
@@ -85,14 +83,14 @@ Similar to the improved Euelr for the explicit Euler, the Crank-Nicolson method 
 As seen in the plots, Crank-Nicolson has improved stability over the implicit Euler method as the similuation time is increased.
 Notably, it is even stabler then the improved Euler as the number of steps gets smaller, i.e. the step size get larger; the phase diagram is still circular, although with some artifact but does not spiral.
 
-<img src="demos/CrankNicolson/mass_spring_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
-<img src="demos/CrankNicolson/mass_spring_phase_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/mass_spring_time_evolution_10steps.png" width="45%" style="display:inline-block;">
-<img src="demos/CrankNicolson/mass_spring_phase_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
-<img src="demos/CrankNicolson/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/CrankNicolson/mass_spring_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/mass_spring_time_evolution_nomod.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/CrankNicolson/mass_spring_phase_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/mass_spring_time_evolution_10steps.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/CrankNicolson/mass_spring_phase_10tend.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/mass_spring_time_evolution_10tend.png" width="45%" style="display:inline-block;">
+<img src="_static/demos/CrankNicolson/mass_spring_phase_10tend_10steps.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/mass_spring_time_evolution_10tend_10steps.png" width="45%" style="display:inline-block;">
 
 ### Reproducing the datasets
 
@@ -129,11 +127,11 @@ cd build
 Each run produces a `mass_spring_<stepper>_<suffix>.txt` file inside `build/`. To obtain the figures used in the report, run the plotting helper from the repository root (it automatically looks inside `build/` when only a filename is supplied):
 
 ```bash
-python demos/plot_ode_results.py mass_spring_exp_euler_nomod.txt
-python demos/plot_ode_results.py mass_spring_exp_euler_10steps.txt
-python demos/plot_ode_results.py mass_spring_exp_euler_10tend.txt
-python demos/plot_ode_results.py mass_spring_exp_euler_10tend_10steps.txt
+python _static/demos/plot_ode_results.py mass_spring_exp_euler_nomod.txt
+python _static/demos/plot_ode_results.py mass_spring_exp_euler_10steps.txt
+python _static/demos/plot_ode_results.py mass_spring_exp_euler_10tend.txt
+python _static/demos/plot_ode_results.py mass_spring_exp_euler_10tend_10steps.txt
 # …repeat for impr_euler, impl_euler, crank_nicolson
 ```
 
-Each invocation drops the corresponding `mass_spring_time_evolution_*.png` and `mass_spring_phase_*.png` files into the stepper-specific folder under `demos/`.
+Each invocation drops the corresponding `mass_spring_time_evolution_*.png` and `mass_spring_phase_*.png` files into the stepper-specific folder under `_static/demos/`.

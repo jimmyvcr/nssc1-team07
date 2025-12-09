@@ -419,11 +419,11 @@ document.write(`
 <section id="large-time-step-10-tend">
 <h5>Large Time Step (10 * tend)<a class="headerlink" href="#large-time-step-10-tend" title="Link to this heading">#</a></h5>
 <p>The instability becomes more visible. The solution is immediately thrown into a high-energy state. The phase plot is jagged, and the time evolution is non-physical. This shows a complete breakdown of the method.</p>
-<img src="demos/ExplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/electric_network_time_evolution_10tend.png?v=1" width="45%" style="display:inline-block;">
+<img src="_static/demos/ExplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
 <br>
-<img src="demos/ExplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ExplicitEuler/electric_network_phase_10tend.png?v=1" width="45%" style="display:inline-block;">
+<img src="_static/demos/ExplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ExplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
 </section>
 </section>
 <section id="implicit-euler-removes-energy">
@@ -436,11 +436,11 @@ document.write(`
 <section id="id2">
 <h5>Large Time Step (10 * tend)<a class="headerlink" href="#id2" title="Link to this heading">#</a></h5>
 <p>The damping effect is more visible. The amplitude is immediately and severely dampened, settling into a low-energy oscillation that is a fraction of the true solution’s amplitude. While the method remains stable, it is inaccurate, as it has dissipated a significant portion of the system’s energy.</p>
-<img src="demos/ImplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/electric_network_time_evolution_10tend.png?v=1" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImplicitEuler/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
 <br>
-<img src="demos/ImplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/ImplicitEuler/electric_network_phase_10tend.png?v=1" width="45%" style="display:inline-block;">
+<img src="_static/demos/ImplicitEuler/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/ImplicitEuler/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
 </section>
 </section>
 <section id="crank-nicolson-preserves-energy">
@@ -453,11 +453,11 @@ document.write(`
 <section id="id4">
 <h5>Large Time Step (10 * tend)<a class="headerlink" href="#id4" title="Link to this heading">#</a></h5>
 <p>Even with a much larger time step, the method remains stable and energy preserving. The amplitude of the oscillation does not grow or decay. The trajectory becomes more angular due to the coarse time step, but it remains on a stable, closed path. This shows its suitability simulations of oscillatory systems.</p>
-<img src="demos/CrankNicolson/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/electric_network_time_evolution_10tend.png?v=1" width="45%" style="display:inline-block;">
+<img src="_static/demos/CrankNicolson/electric_network_time_evolution_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/electric_network_time_evolution_10tend.png" width="45%" style="display:inline-block;">
 <br>
-<img src="demos/CrankNicolson/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="demos/CrankNicolson/electric_network_phase_10tend.png?v=1" width="45%" style="display:inline-block;">
+<img src="_static/demos/CrankNicolson/electric_network_phase_nomod.png" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="_static/demos/CrankNicolson/electric_network_phase_10tend.png" width="45%" style="display:inline-block;">
 </section>
 </section>
 </section>
@@ -488,17 +488,19 @@ document.write(`
 <section id="legendre-polynomials">
 <h3>Legendre polynomials<a class="headerlink" href="#legendre-polynomials" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">legendre_autodiff.cpp</span></code> evaluates Legendre polynomials up to order 5 over the interval <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code> and writes the results to a CSV file with columns x, P0, dP0/dx, P1, dP1/dx, …, P5, dP5/dx</p>
-<p><code class="docutils literal notranslate"><span class="pre">plot_legendre.py</span></code> reads this CSV and generates plots of the polynomials and their derivatives. Both the CSV and the plots are saved in <code class="docutils literal notranslate"><span class="pre">demos/Legendre</span></code>.
-<a class="reference internal" href="_images/legendre_polynomials.png"><img alt="_images/legendre_polynomials.png" src="_images/legendre_polynomials.png" style="width: 45%;" /></a>
-<a class="reference internal" href="_images/legendre_polynomials_derivatives.png"><img alt="_images/legendre_polynomials_derivatives.png" src="_images/legendre_polynomials_derivatives.png" style="width: 45%;" /></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">plot_legendre.py</span></code> reads this CSV and generates plots of the polynomials and their derivatives. Both the CSV and the plots are saved in <code class="docutils literal notranslate"><span class="pre">_static/demos/Legendre</span></code>.</p>
+<a class="reference internal image-reference" href="_images/legendre_polynomials.png"><img alt="_images/legendre_polynomials.png" src="_images/legendre_polynomials.png" style="width: 45%;" />
+</a>
+<a class="reference internal image-reference" href="_images/legendre_polynomials_derivatives.png"><img alt="_images/legendre_polynomials_derivatives.png" src="_images/legendre_polynomials_derivatives.png" style="width: 45%;" />
+</a>
 <p><strong>Compilation:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++20<span class="w"> </span>-I./src<span class="w"> </span>demos/legendre_autodiff.cpp<span class="w"> </span>-o<span class="w"> </span>demos/legendre_autodiff
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++20<span class="w"> </span>-I./src<span class="w"> </span>_static/demos/legendre_autodiff.cpp<span class="w"> </span>-o<span class="w"> </span>_static/demos/legendre_autodiff
 </pre></div>
 </div>
 <p>The pendulum class is implemented in <code class="docutils literal notranslate"><span class="pre">nonlinfunc.hpp</span></code>.
 <code class="docutils literal notranslate"><span class="pre">pendulum_demo.cpp</span></code> evaluates the pendulum system and prints the function values and Jacobian to the terminal.</p>
 <p><strong>Compilation:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++20<span class="w"> </span>-I./src<span class="w"> </span>demos/legendre_autodiff.cpp<span class="w"> </span>-o<span class="w"> </span>demos/legendre_autodiff
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++20<span class="w"> </span>-I./src<span class="w"> </span>_static/demos/legendre_autodiff.cpp<span class="w"> </span>-o<span class="w"> </span>_static/demos/legendre_autodiff
 </pre></div>
 </div>
 </section>
@@ -614,24 +616,24 @@ It effectively eliminates phase shift and reduces errors due to amplitude decay 
 </section>
 <section id="explicit-runge-kutta">
 <h3>Explicit Runge-Kutta<a class="headerlink" href="#explicit-runge-kutta" title="Link to this heading">#</a></h3>
-<p>Explicit RK steppers load their Butcher tableaux from folders that start with the prefix <code class="docutils literal notranslate"><span class="pre">ExplicitRK</span></code>. Each folder must contain a <code class="docutils literal notranslate"><span class="pre">tableau.txt</span></code> file. For instance, <code class="docutils literal notranslate"><span class="pre">demos/ExplicitRK_RK4Classic/tableau.txt</span></code> stores the standard RK4 tableau and can be reused for any run.</p>
+<p>Explicit RK steppers load their Butcher tableaux from folders that start with the prefix <code class="docutils literal notranslate"><span class="pre">ExplicitRK</span></code>. Each folder must contain a <code class="docutils literal notranslate"><span class="pre">tableau.txt</span></code> file. For instance, <code class="docutils literal notranslate"><span class="pre">_static/demos/ExplicitRK_RK4Classic/tableau.txt</span></code> stores the standard RK4 tableau and can be reused for any run.</p>
 <p><strong>Running <code class="docutils literal notranslate"><span class="pre">test_ode</span></code>:</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
-./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../demos/ExplicitRK_RK4Classic
-./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../demos/ExplicitRK_RK4Classic<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span>
-./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../demos/ExplicitRK_RK4Classic<span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
-./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../demos/ExplicitRK_RK4Classic<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span><span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic<span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
+./test_ode<span class="w"> </span>--rhs<span class="w"> </span>mass_spring<span class="w"> </span>--stepper<span class="w"> </span>exp_rk<span class="w"> </span>--tableau-folder<span class="w"> </span>../_static/demos/ExplicitRK_RK4Classic<span class="w"> </span>--n-factor<span class="w"> </span><span class="m">10</span><span class="w"> </span>--t-end-factor<span class="w"> </span><span class="m">10</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">--tableau-folder</span></code> accepts relative paths, so tab-completion works both from the repo root and from <code class="docutils literal notranslate"><span class="pre">build/</span></code>. The output files follow the pattern <code class="docutils literal notranslate"><span class="pre">mass_spring_exp_rk_&lt;folder_suffix&gt;_&lt;modifiers&gt;.txt</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">mass_spring_exp_rk_rk4classic_nomod.txt</span></code>).</p>
 <p><strong>Plotting explicit RK runs:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_nomod.txt
-uv<span class="w"> </span>run<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10steps.txt
-uv<span class="w"> </span>run<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10tend.txt
-uv<span class="w"> </span>run<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10tend_10steps.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_nomod.txt
+uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10steps.txt
+uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10tend.txt
+uv<span class="w"> </span>run<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>build/mass_spring_exp_rk_rk4classic_10tend_10steps.txt
 </pre></div>
 </div>
-<p>The plotting helper automatically writes the figures into <code class="docutils literal notranslate"><span class="pre">demos/ExplicitRK_RK4Classic/</span></code> and uses filenames of the form <code class="docutils literal notranslate"><span class="pre">mass_spring_time_evolution_&lt;modifiers&gt;.png</span></code> / <code class="docutils literal notranslate"><span class="pre">mass_spring_phase_&lt;modifiers&gt;.png</span></code>.
+<p>The plotting helper automatically writes the figures into <code class="docutils literal notranslate"><span class="pre">_static/demos/ExplicitRK_RK4Classic/</span></code> and uses filenames of the form <code class="docutils literal notranslate"><span class="pre">mass_spring_time_evolution_&lt;modifiers&gt;.png</span></code> / <code class="docutils literal notranslate"><span class="pre">mass_spring_phase_&lt;modifiers&gt;.png</span></code>.
 Only the physical modifiers (e.g., <code class="docutils literal notranslate"><span class="pre">10steps</span></code>, <code class="docutils literal notranslate"><span class="pre">10tend</span></code>) remain in the filename; the RK tableau is implied by the folder.</p>
 <section id="classic-rk-4">
 <h4>Classic <span class="math notranslate nohighlight">\(RK_4\)</span><a class="headerlink" href="#classic-rk-4" title="Link to this heading">#</a></h4>

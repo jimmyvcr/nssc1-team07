@@ -1,6 +1,6 @@
 # Exercise 3
 
-## Add Distance Constraints
+## Mechanical system with Distance Constraints
 
 Implementation of Distance Constraints in `mass_spring.hpp`:
 DistanceConstraints class
@@ -39,7 +39,7 @@ For each constraint
   - add constraint residual to force at position corresponding to Lagrange multipliers
   - Solver adjusts $\lambda$ so that these residuals go to zero
 
-## Exact Derivative 
+## Exact Derivative for Solver
 - Calculate spring force Jacobian: stiffness
 - Calculate constraint Jacobian
 - Weight with mass

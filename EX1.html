@@ -349,13 +349,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-time-steps-and-larger-end-times">Different time-steps and larger end-times</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-configuration">Base configuration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-time-steps">More time steps</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation">Longer simulation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation-with-more-time-steps">Longer simulation with more time steps</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-configuration">Base configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-time-steps">More time steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation">Longer simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation-with-more-time-steps">Longer simulation with more time steps</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-euler">Explicit Euler</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-euler">Improved Euler</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-euler">Implicit Euler</a></li>
@@ -376,37 +373,34 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="exercise-1">
 <h1>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h1>
-<section id="different-time-steps-and-larger-end-times">
-<h2>Different time-steps and larger end-times<a class="headerlink" href="#different-time-steps-and-larger-end-times" title="Link to this heading">#</a></h2>
 <p>Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.</p>
 <section id="base-configuration">
-<h3>Base configuration<a class="headerlink" href="#base-configuration" title="Link to this heading">#</a></h3>
+<h2>Base configuration<a class="headerlink" href="#base-configuration" title="Link to this heading">#</a></h2>
 <p>The first row corresponds to the given parameters for time-step and end-time.</p>
 <p>Calculation time: <span class="math notranslate nohighlight">\(t_{end} = 4*\pi = T\)</span> <br />
 Number of steps: <span class="math notranslate nohighlight">\(n = 100 = N\)</span> <br />
 Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T}{N}= \frac{4*\pi}{100}\)</span></p>
 </section>
 <section id="more-time-steps">
-<h3>More time steps<a class="headerlink" href="#more-time-steps" title="Link to this heading">#</a></h3>
+<h2>More time steps<a class="headerlink" href="#more-time-steps" title="Link to this heading">#</a></h2>
 <p>The second row displays results for 10-times smaller time steps.
 Calculation time: <span class="math notranslate nohighlight">\(t_{end} = T\)</span> <br />
 Number of steps: <span class="math notranslate nohighlight">\(n = N*10\)</span> <br />
 Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T}{N*10}\)</span></p>
 </section>
 <section id="longer-simulation">
-<h3>Longer simulation<a class="headerlink" href="#longer-simulation" title="Link to this heading">#</a></h3>
+<h2>Longer simulation<a class="headerlink" href="#longer-simulation" title="Link to this heading">#</a></h2>
 <p>The third row shows results for a 10-times bigger end-time.</p>
 <p>Calculation time: <span class="math notranslate nohighlight">\(t_{end} = T*10\)</span> <br />
 Number of steps: <span class="math notranslate nohighlight">\(n = N\)</span> <br />
 Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T*10}{N}\)</span></p>
 </section>
 <section id="longer-simulation-with-more-time-steps">
-<h3>Longer simulation with more time steps<a class="headerlink" href="#longer-simulation-with-more-time-steps" title="Link to this heading">#</a></h3>
+<h2>Longer simulation with more time steps<a class="headerlink" href="#longer-simulation-with-more-time-steps" title="Link to this heading">#</a></h2>
 <p>The last row shows what a combined 10-times smaller time steps and 10-times bigger end-time results in.</p>
 <p>Calculation time: <span class="math notranslate nohighlight">\(t_{end} = T*10\)</span> <br />
 Number of steps: <span class="math notranslate nohighlight">\(n = N*10\)</span> <br />
 Frequency: <span class="math notranslate nohighlight">\(\tau= \frac{t_{end}}{n} = \frac{T*10}{N*10}= \frac{T}{N}\)</span></p>
-</section>
 </section>
 <section id="explicit-euler">
 <h2>Explicit Euler<a class="headerlink" href="#explicit-euler" title="Link to this heading">#</a></h2>
@@ -523,14 +517,14 @@ Notably, it is even stabler then the improved Euler as the number of steps gets 
 </pre></div>
 </div>
 <p>Each run produces a <code class="docutils literal notranslate"><span class="pre">mass_spring_&lt;stepper&gt;_&lt;suffix&gt;.txt</span></code> file inside <code class="docutils literal notranslate"><span class="pre">build/</span></code>. To obtain the figures used in the report, run the plotting helper from the repository root (it automatically looks inside <code class="docutils literal notranslate"><span class="pre">build/</span></code> when only a filename is supplied):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_nomod.txt
-python<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10steps.txt
-python<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10tend.txt
-python<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10tend_10steps.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_nomod.txt
+python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10steps.txt
+python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10tend.txt
+python<span class="w"> </span>_static/demos/plot_ode_results.py<span class="w"> </span>mass_spring_exp_euler_10tend_10steps.txt
 <span class="c1"># …repeat for impr_euler, impl_euler, crank_nicolson</span>
 </pre></div>
 </div>
-<p>Each invocation drops the corresponding <code class="docutils literal notranslate"><span class="pre">mass_spring_time_evolution_*.png</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_spring_phase_*.png</span></code> files into the stepper-specific folder under <code class="docutils literal notranslate"><span class="pre">demos/</span></code>.</p>
+<p>Each invocation drops the corresponding <code class="docutils literal notranslate"><span class="pre">mass_spring_time_evolution_*.png</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_spring_phase_*.png</span></code> files into the stepper-specific folder under <code class="docutils literal notranslate"><span class="pre">_static/demos/</span></code>.</p>
 </section>
 </section>
 </section>
@@ -599,13 +593,10 @@ python<span class="w"> </span>demos/plot_ode_results.py<span class="w"> </span>m
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-time-steps-and-larger-end-times">Different time-steps and larger end-times</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-configuration">Base configuration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-time-steps">More time steps</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation">Longer simulation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation-with-more-time-steps">Longer simulation with more time steps</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-configuration">Base configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-time-steps">More time steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation">Longer simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#longer-simulation-with-more-time-steps">Longer simulation with more time steps</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-euler">Explicit Euler</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-euler">Improved Euler</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-euler">Implicit Euler</a></li>
