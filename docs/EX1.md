@@ -1,7 +1,5 @@
 # Exercise 1
 
-## Different time-steps and larger end-times
-
 Exact solution of mass-spring ODE results in sinusoidal oscillation over time (time evolution) and circular phase plot. The updates with explicit Euler are not (totally) energy conserving and so numerical errors accumulate over time. In the following plots different time-step sizes are combined with varying end-times. Their effect on the accuracy of the resulting numerical solution is interpreted.  
 
 ### Base configuration
